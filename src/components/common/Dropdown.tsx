@@ -14,13 +14,6 @@ export function Dropdown() {
 
           <button
             className="text-left px-4 py-3 hover:bg-base-200"
-            onClick={() => navigate("/news")}
-          >
-            뉴스
-          </button>
-
-          <button
-            className="text-left px-4 py-3 hover:bg-base-200"
             onClick={() => navigate("/predictions")}
           >
             승부예측
@@ -31,6 +24,13 @@ export function Dropdown() {
             onClick={() => navigate("/live")}
           >
             생중계
+          </button>
+          
+          <button
+            className="lg:hidden text-left px-4 py-3 hover:bg-base-200"
+            onClick={() => navigate("/news")}
+          >
+            뉴스
           </button>
         </div>)
 }

@@ -17,7 +17,7 @@ export default function PredictionPage() {
 
   return (
     <div className="w-full max-w-3xl bg-base-200 mx-auto p-4 space-y-4 rounded-xl">
-      <h1 className="text-2xl font-bold mb-4">승부 예측</h1>
+      <h1 className="mx-2 text-2xl font-bold mb-4">승부 예측</h1>
 
       {matches.length === 0 && (
         <p className="text-base-content/60">예측 가능한 경기가 없습니다.</p>

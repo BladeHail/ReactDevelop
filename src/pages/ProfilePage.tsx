@@ -26,7 +26,7 @@ export default function ProfilePage() {
         {/* ⬇ 선수 데이터 props로 전달 */}
         <ProfileHeader player={player} />
         <ProfileSections player={player} />
-
+        
       </div>
     </main>
   );

@@ -15,7 +15,7 @@ export function Navbar() {
         {/* Anchor 역할 */}
         <a className="text-xl cursor-pointer">☰ </a>
         <a
-          className="font-bold text-xl cursor-pointer hover:font-"
+          className="font-bold text-xl cursor-pointer"
           onClick={() => navigate("/")}
         >
           Paralympic Studio
@@ -29,7 +29,7 @@ export function Navbar() {
       <div className="flex-none gap-3">
         {isLoggedIn && localStorage.getItem('token') ? (
           <>
-            <span className="font-semibold">{username}님 </span>
+            <span className="font-semibold">{username?.split('@')[0]}님 </span>
             <button className="btn btn-sm" onClick={logout}>
               로그아웃
             </button>

@@ -4,6 +4,6 @@ export interface Player {
   body: string;
   type: string;
   team: string;
-  media: string | null;   // nullable
+  mediaUrl: string | null;   // nullable
   awards: string[];
 }

@@ -16,6 +16,9 @@ fetch(`/api/${url}`, {
     Authorization: "Bearer " + localStorage.getItem("token")
   },
   body: JSON.stringify({
+      matchId: 1,
+      predictedResult: "HOME_WIN",
+      bet: 30,
   })
 }).then(res => res.json()).then(console.log);
 }

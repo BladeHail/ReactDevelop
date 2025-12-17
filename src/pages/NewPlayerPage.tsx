@@ -140,7 +140,7 @@ export default function ProfileCreatePage() {
 
       {/* BIO */}
       <div className="form-control">
-        <label className="label m-2 ml-0">나이</label>
+        <label className="label m-2 ml-0">생년월일(YYYY년 MM월 DD일)</label>
         <input
           className="input input-bordered"
           value={body}

@@ -9,7 +9,6 @@ export function Navbar() {
 
   return (
     <div className="navbar bg-base-200 shadow relative">
-
       {/* Hover 메뉴 그룹 */}
       <div className="flex-1">
         <div className="inline-block group">

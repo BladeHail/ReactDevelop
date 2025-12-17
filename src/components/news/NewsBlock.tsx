@@ -34,13 +34,13 @@ export default function NewsBlock({news} : {news : NewsDto}) {
         .finally(() => {
           setLoading(false);
         });
-    }
+      }
     return (
       <div className="card bg-base-100 shadow-lg p-5 border border-base-300 mt-4">
         <div>
           <h1 className="text-2xl font-bold">{news.title}</h1>
           <p className="text-base-content/60 text-sm mt-1">
-            {news.pubDate/*new Date(news.pubDate).toLocaleString()*/}
+            {news.pubDate}
           </p>
           {expand === true ? 
           <div>

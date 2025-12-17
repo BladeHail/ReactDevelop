@@ -1,5 +1,6 @@
 export interface BoardDto {
     id: number,
+    playerId: number,
     title: string,
     content: string,
     author: string,

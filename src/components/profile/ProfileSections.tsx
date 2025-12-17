@@ -35,7 +35,7 @@ export default function ProfileSections({player}: {player : Player}) {
       </div>
       <div className="bg-base-200 rounded-xl shadow p-6">
         <div className="flex">
-          <h2 className="text-2xl lg:text-4xl font-semibold flex-1">응원 글</h2>
+          <h2 id="comment" className="text-2xl lg:text-4xl font-semibold flex-1">응원 글</h2>
           {/* <div className="text-lg btn m-4 mt-0 bg-base-100" onClick={enclose}>펼치기/접기</div> */}
         </div>
         <div className="divider my-4"></div>

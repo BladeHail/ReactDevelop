@@ -94,7 +94,7 @@ export default function PostList({
 
       {/* 현재 댓글 목록 — 깜빡임 없이 지속 유지 */}
       {comments.map((cmt) => (
-        <PostElement key={cmt.id} comment={cmt} />
+        <PostElement key={cmt.id} comment={cmt} interactive={true}/>
       ))}
 
       {/* 페이징 UI */}

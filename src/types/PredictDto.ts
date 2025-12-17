@@ -1,8 +1,8 @@
 export interface PredictDto{
     id: number;
     matchId: number;
-    teama: string;
-    teamb: string;
+    teamA: string;
+    teamB: string;
     matchDate: string;
     predictedResult: string;
     predictedResultText: string;
@@ -11,6 +11,11 @@ export interface PredictDto{
     actualResultText: string | null;
     isCorrect: boolean | null;
     matchStatus: string;
+    homeAmount: number;
+    awayAmount: number;
+    description: string;
+    yourPrevResult: string;
+    yourPrevBet: number;
 }
 
 /* 

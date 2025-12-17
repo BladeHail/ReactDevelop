@@ -23,7 +23,7 @@ export default function PredictionPage() {
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
         {matches.map((match) => (
-          <PredictionCard key={match.id} match={match} />
+          <PredictionCard key={match.id} match={match} interactive={true}/>
         ))}
       </div>
     </div>

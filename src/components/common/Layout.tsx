@@ -7,7 +7,6 @@ import { Outlet } from "react-router-dom";
 
 export default function Layout() {
   //const [selectedNews, setSelectedNews] = useState<NewsDto | null>(null);
-
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />

@@ -32,7 +32,7 @@ export default function MyPage() {
         }
     }
   useEffect(() => {
-    api.get("auth/my")
+    api.get("user/my")
     .then((res) => {setUser(res.data)})
     .catch((e: any) => {console.error(e)});
     api.get("predictions/my")
@@ -52,15 +52,19 @@ export default function MyPage() {
   }
   return (
     <main className="w-full max-w-5xl mx-auto flex flex-col gap-6 p-4 lg:p-6">
-            <h1 className="text-2xl font-bold mt-4">{getName(user.email, user.username)}님</h1>
-            <p className="text-base-content/70">{user.email}</p>
-            <p className="text-base-content/50">{handleProvider(user.provider)}</p>
-            <p className="text-sm text-base-content/60 mt-1">
-              {myPre !== null ? myPre.map(predict => <MyPrediction key={predict.id} predict={predict}/>) : "없음"}
-            </p>
-            <p className="text-sm text-base-content/60 mt-1">
-              {myBrd !== null ? myBrd.map(predict => <MyBoard key={predict.id} post={predict}/>) : "없음"}
-            </p>
+            <div className="bg-base-200 rounded-xl shadow p-8 flex flex-col items-center text-center">
+              <h1 className={user.admin === true ? "text-5xl font-bold mt-4 text-blue-600" : "text-5xl font-bold mt-4"}>{getName(user.email, user.username)}님</h1>
+              <p className="text-xl">{handleProvider(user.provider)}</p>
+              <p className="text-xs">{user.email !== null ? user.email : "이메일 없음"}</p>
+            </div>
+            <div className="rounded-xl text-2xl font-bold bg-base-200 p-4 mt-1">
+              <div>내 승부예측</div>
+              {myPre !== null ? myPre.map(predict => <MyPrediction key={predict.id} predict={predict}/>) : <div className="text-center">없음</div>}
+            </div>
+            <div className="rounded-xl text-2xl font-bold bg-base-200 p-4 mt-1">
+              <div>내 응원 글</div>
+              {myBrd !== null ? myBrd.map(predict => <MyBoard key={predict.id} post={predict}/>) : <div className="text-center bg-base-100 m-2 rounded-xl py-4">없음</div>}
+            </div>
     </main>
   );
 }

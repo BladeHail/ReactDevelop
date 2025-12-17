@@ -13,11 +13,14 @@ export default function NewsListPage() {
   }, []);
 
   if (loading) return <div className="p-6">불러오는 중...</div>;
-
   return (
     <div className="w-full max-w-5xl bg-base-200 mx-auto p-4 space-y-4 rounded-xl">
-      <h1 className="mx-2 text-2xl font-bold mb-4">늬우스</h1>
-
+      <div className="flex flex-row">
+        <h1 className="mx-2 text-2xl font-bold mb-4 flex-1">늬우스</h1>
+        <h1 className="btn mx-2 text-2xl font-bold mb-4" onClick={() => {
+          setNews(prev => [...prev].reverse());
+        }}>뉴스 뒤집기</h1>
+      </div>
       {news.length === 0 && (
         <p className="text-base-content/60">뉴스를 받아올 수 없었습니다.</p>
       )}

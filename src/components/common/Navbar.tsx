@@ -29,7 +29,15 @@ export function Navbar() {
 
       {/* 로그인 / 로그아웃 영역 */}
       <div className="flex-none gap-3 group">
-        {isLoggedIn && <span className="font-semibold">{username?.split('@')[0]}님 ({point !== null ? point : 0} 포인트) <a className="m-2 lg:my-0 text-xl cursor-pointer">☰</a> </span>}
+        {isLoggedIn && 
+        <span className="font-semibold flex flex-row">
+          <div className="flex flex-col">
+            <div className="text-xl">{username?.split('@')[0]}님</div> 
+            <div>({point !== null ? point : 0} 포인트)</div>
+          </div> 
+          <a className="m-2 lg:my-0 text-xl cursor-pointer">☰</a> 
+        </span>
+        }
         <SettingDropdown />
         {/*isLoggedIn && localStorage.getItem('token') ? (
           <>

@@ -23,6 +23,8 @@ import AdminPlayerList from "./pages/admin/AdminPlayerList";
 import AdminPrediction from "./pages/admin/AdminPrediction";
 import NewMatchPage from "./pages/admin/NewMatchPage";
 import PlayerEditPage from "./pages/admin/PlayerEditPage";
+import VideoList from "./pages/user/VideoList"
+import AdminVideo from "./pages/admin/AdminVideo"
 import CreatePostPage from "./pages/user/CreatePostPage";
 import PostPage from "./pages/user/PostPage";
 
@@ -39,6 +41,7 @@ function App() {
               <Route path="/admin/players/edit/:id" element={<PlayerEditPage />} />
               <Route path="/admin/predictions" element={<AdminPrediction />} />
               <Route path="/admin/predictions/new" element={< NewMatchPage />} />
+              <Route path="/admin/videos" element={<AdminVideo />} />
             </Route>
             <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
               <Route path="/" element={<Home />} />
@@ -50,6 +53,7 @@ function App() {
               <Route path="/error/:status" element={<ErrorPage />} />
               <Route path="/news" element={<NewsListPage />} />
               <Route path="/live" element={<LiveListPage />} />
+              <Route path="/videos" element={<VideoList />} />
               <Route path="/my" element={<MyPage />} />
               <Route path="*" element={<ErrorPage />} />
             </Route>

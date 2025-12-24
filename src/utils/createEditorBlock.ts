@@ -15,12 +15,12 @@ export function createPredictionEditorBlock(
   };
 }
 
-export function createTextEditorBlock(init: boolean = false): EditorBlock<TextBlock>{
+export function createTextEditorBlock(): EditorBlock<TextBlock>{
   return {key: crypto.randomUUID(),
     block: {
       id: "",               // 서버 전송 전에는 비워둬도 무방
       type: "text",
-      content: init ? "" : " ",
+      content: "",
     },
   };
 }

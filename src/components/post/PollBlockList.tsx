@@ -6,14 +6,11 @@ interface PollBlockListProps {
   onSelect: (match: any) => void;
 }
 
-export default function PollBlockList({
-  items,
-  onSelect,
-}: PollBlockListProps) {
+export default function PollBlockList({items, onSelect,}: PollBlockListProps) {
   if (items.length === 0) {
     return (
       <div className="text-sm text-base-content/60">
-        선택 가능한 투표가 없습니다.
+        선택 가능한 매치가 없습니다.
       </div>
     );
   }

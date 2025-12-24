@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import BlockPickerPanel from "../../components/post/BlockPickerPanelProps";
+import BlockPickerPanel from "../../components/post/BlockPickerPanel";
 import { createPredictionEditorBlock, createTextEditorBlock } from "../../utils/createEditorBlock";
 import type { AnyEditorBlock } from "../../types/EditorBlocks";
 import PredictionCard from "../../components/predictions/PredictionCard";
@@ -10,7 +10,7 @@ import { api } from "../../api/axiosInstance";
 export default function CreatePostPage() {
   const [title, setTitle] = useState("");
   const [blocks, setBlocks] = useState<AnyEditorBlock[]>([
-    createTextEditorBlock(true),
+    createTextEditorBlock(),
   ]);
 
   const [activeBlockKey, setActiveBlockKey] = useState<string | null>(null);
@@ -40,6 +40,10 @@ export default function CreatePostPage() {
   };
 
   const returnList = () => {
+    if(isPostEmpty()) { //내용이 없으면 그냥 돌아가기
+      navigate('/posts');
+      return;
+    }
     const c = confirm("작성 중인 내용이 사라집니다. 돌아가시겠습니까?");
     if (c) navigate('/posts');
   }
@@ -91,9 +95,8 @@ export default function CreatePostPage() {
     if(block.type === "text") return (
       <div key={key} className="relative flex flex-col">
         <textarea
-          className="mt-4 resize-none outline-none leading-relaxed bg-transparent border-base-300 pr-12"
+          className="resize-none outline-none leading-relaxed bg-transparent border-base-300 pr-12 pl-2"
           value={block.type === "text" ? block.content : ""}
-          placeholder="내용을 입력하세요"
           onChange={e => updateTextBlock(key, e.target.value)}
           onFocus={e => {
             setActiveBlockKey(key);
@@ -154,47 +157,54 @@ export default function CreatePostPage() {
 
   return (
     <div className="max-w-5xl mx-auto p-6 space-y-6 min-h-[calc(100vh-200px)] bg-base-200 rounded-xl">
-      <div className="flex flex-col min-h-[calc(100vh-200px)]">
+      <div className="flex flex-col min-h-[calc(100vh-200px)] p-2">
         <div className="flex flex-col flex-1">
           <div className="flex">
             <h1 className="text-2xl font-bold flex-1">새 글</h1>
             <button className="btn btn-primary p-2 bg-base-100" onClick={() => {returnList()}}>← 목록으로</button>
           </div>
-        {/* 제목 */}
-          <input
-            className="w-full text-2xl font-semibold outline-none border-b pb-2 bg-transparent"
-            placeholder="제목을 입력하세요"
-            value={title}
-            onChange={handleTitleChange}
-          />
+          <div className="mb-4"></div>
+          {/* 제목 */}
+          <div className="p-2 rounded-xl border border-white/10 flex flex-col flex-1">
+            <input
+              className="w-full mt-2 text-2xl pl-2 font-semibold outline-none bg-transparent"
+              placeholder="제목을 입력하세요"
+              value={title}
+              onChange={handleTitleChange}
+            />
+            <div className="divider my-4"></div>
+          {/* 블록들 */}
+            <div className="flex flex-1 flex-col max-h-[calc(100vh-300px)] overflow-y-auto">
+              {blocks.map(renderBlock)}
+            </div>
 
-        {/* 블록들 */}
-          <div className="mt-4 flex flex-1 flex-col max-h-[calc(100vh-300px)] overflow-y-auto">
-            {blocks.map(renderBlock)}
+            <BlockPickerPanel
+              open={pickerOpen}
+              onClose={() => setPickerOpen(false)}
+              onSelect={(item: any) => {
+                if (!pickerTargetKey) return;
+              
+                // 지금은 임시 로그
+                console.log("선택됨:", item);
+                // 이후 단계:
+                const newBlock = createPredictionEditorBlock(item);
+                insertBlockAfter(pickerTargetKey, newBlock);
+              
+                setPickerOpen(false);
+              }}
+            />
+
           </div>
-          
-          <BlockPickerPanel
-            open={pickerOpen}
-            onClose={() => setPickerOpen(false)}
-            onSelect={(item: any) => {
-              if (!pickerTargetKey) return;
-            
-              // 지금은 임시 로그
-              console.log("선택됨:", item);
-              // 이후 단계:
-              const newBlock = createPredictionEditorBlock(item);
-              insertBlockAfter(pickerTargetKey, newBlock);
-            
-              setPickerOpen(false);
-            }}
-          />
-
-        </div>
-        <div className="flex">
-          <div className="flex-1"></div>
-          {/* 제출 */}
-          <div>
-            <div className="flex"></div>
+          <div className="divider my-4"></div>
+          <div className="flex mt-2 justify-around">
+            {/* 제출 */}
+            <button
+              onClick={handleSubmit}
+              className="btn btn-error px-6 py-2 rounded-lg text-white"
+            >
+              초기화
+            </button>
+            <div className="flex-1"></div>
             <button
               onClick={handleSubmit}
               className="btn btn-primary px-6 py-2 rounded-lg text-white"

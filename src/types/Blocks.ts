@@ -1,3 +1,4 @@
+import type { LiveDto } from "./LiveDto";
 import type { MatchDto } from "./MatchDto";
 
 export interface Block{
@@ -14,3 +15,8 @@ export interface PredictionBlock extends Block{
     type: "prediction";
     match: MatchDto | null;
 };
+
+export interface LiveBlock extends Block{
+    type: "live";
+    live: LiveDto | null;
+}

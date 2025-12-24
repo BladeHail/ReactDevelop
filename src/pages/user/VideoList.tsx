@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { api } from "../../api/axiosInstance";
 import { type VideoResponseDto } from "../../types/VideoResponseDto";
 import VideoBlock from "../../components/video/VideoBlock";
+import VideoPlayerModal from "../../components/video/VideoPlayerModal";
 
 export default function VideoList() {
   const [videos, setVideos] = useState<VideoResponseDto[]>([]);
   const [desc, setDesc] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [selectedVideo, setSelectedVideo] = useState<VideoResponseDto | null>(null);
 
   useEffect(() => {
     api.get("/videos/list")
@@ -43,9 +45,12 @@ export default function VideoList() {
       {/* 바둑판 방식 그리드 레이아웃 */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 place-items-start">
         {videos.map((video) => (
-          <VideoBlock key={video.videoId} video={video} />
+          <VideoBlock key={video.videoId} video={video}
+          onClick={() => setSelectedVideo(video)} />
         ))}
       </div>
+      <VideoPlayerModal video={selectedVideo}
+      onClose={() => setSelectedVideo(null)} />
     </div>
   );
 }

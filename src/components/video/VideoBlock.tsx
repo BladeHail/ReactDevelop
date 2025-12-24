@@ -2,26 +2,30 @@ import { type VideoResponseDto } from "../../types/VideoResponseDto";
 
 interface VideoBlockProps {
   video: VideoResponseDto;
+  onClick: () => void;
 }
 
-export default function VideoBlock({ video }: VideoBlockProps) {
+export default function VideoBlock({ video, onClick }: VideoBlockProps) {
   return (
     <div 
-      className={`flex flex-col bg-base-100 p-3 rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer group`}
-      onClick={() => console.log(`${video.videoId} 재생`)}
+      className="flex flex-col p-3 transition-shadow rounded-lg shadow-sm cursor-pointer bg-base-100 hover:shadow-md group"
+      onClick={onClick}
     >
-      <div className={`relative aspect-video rounded-md overflow-hidden bg-base-300`}>
+      {/* 썸네일 */}
+      <div className="relative overflow-hidden rounded-md aspect-video bg-base-300">
         <img 
           src={video.thumbnailUrl} 
           alt={video.title} 
-          className={`w-full h-full object-cover group-hover:scale-105 transition-transform`}
+          className="object-cover w-full h-full transition-transform group-hover:scale-105"
         />
       </div>
-      <div className={`mt-3`}>
-        <h3 className={`font-semibold line-clamp-2 text-base-content`}>
+      
+      <div className="mt-3">
+        <h3 className="font-semibold line-clamp-2 text-base-content">
           {video.title}
         </h3>
-        <p className={`text-sm text-base-content/50 mt-1`}>YouTube • Paralympic Studio</p>
+        <p className="mt-1 text-sm text-base-content/50">
+        YouTube • Paralympic Studio</p>
       </div>
     </div>
   );

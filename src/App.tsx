@@ -24,6 +24,7 @@ import AdminPrediction from "./pages/admin/AdminPrediction";
 import NewMatchPage from "./pages/admin/NewMatchPage";
 import PlayerEditPage from "./pages/admin/PlayerEditPage";
 import CreatePostPage from "./pages/user/CreatePostPage";
+import PostPage from "./pages/user/PostPage";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
               <Route path="/players/:id" element={<ProfilePage />} />
               <Route path="/predictions" element={<PredictionPage />} />
               <Route path="/posts/new" element={<CreatePostPage />} />
+              <Route path="/posts/:id" element={<PostPage />} />
               <Route path="/error/:status" element={<ErrorPage />} />
               <Route path="/news" element={<NewsListPage />} />
               <Route path="/live" element={<LiveListPage />} />

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { api } from "../../api/axiosInstance";
 import { type PageResponse, type PostSummary } from "../../types/Post";
 import { useNavigate } from "react-router-dom";
+import getName from "../../utils/getName";
 
 export default function PostListPage() {
   const [page, setPage] = useState(0);
@@ -45,7 +46,7 @@ export default function PostListPage() {
             >
               <div className="text-lg font-semibold">{post.title}</div>
               <div className="text-sm text-gray-500 flex justify-between">
-                <span>{post.authorName}</span>
+                <span>{getName(post.authorName)}</span>
                 <span>{new Date(post.createdAt).toLocaleString()}</span>
               </div>
             </li>

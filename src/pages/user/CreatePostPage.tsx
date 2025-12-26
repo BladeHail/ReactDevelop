@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BlockPickerPanel from "../../components/post/BlockPickerPanel";
-import { createLiveEditorBlock, createPredictionEditorBlock, createTextEditorBlock } from "../../utils/createEditorBlock";
+import { createLiveEditorBlock, createPredictionEditorBlock, createTextEditorBlock, createVideoEditorBlock } from "../../utils/createEditorBlock";
 import type { AnyEditorBlock } from "../../types/EditorBlocks";
 import PredictionCard from "../../components/predictions/PredictionCard";
 import { api } from "../../api/axiosInstance";
@@ -81,10 +81,21 @@ export default function CreatePostPage() {
               videoId: block.live?.videoId,
             };
           }
+          if (block.type === "video") {
+            return {
+              id: String(index + 1),
+              type: "video",
+              videoId: block.video?.videoId,
+            };
+          }
           return {...block, id: String(index + 1)};
         }),
     };
-    await api.post("/posts", payload);
+    await api.post("/posts", payload)
+    .then(() => {
+      alert("글이 성공적으로 게시되었습니다.");
+      navigate("/posts");
+    });
   };
 
   const renderBlock = ({ key, block }: AnyEditorBlock) => { //renderBlock이 너무 많이 호출됨, 원인을 찾을 수 있으면 좋으련만
@@ -99,6 +110,14 @@ export default function CreatePostPage() {
       <div key={key} className="relative">
           <div className="">
             <YtPlayer videoId={block.live.videoId} auto={true} />
+          </div>
+        </div>
+    );}
+    if(block.type === "video" && block.video !== null) {
+      return (
+      <div key={key} className="relative">
+          <div className="">
+            <YtPlayer videoId={block.video.videoId} auto={false} />
           </div>
         </div>
     );}
@@ -165,6 +184,9 @@ export default function CreatePostPage() {
     });
   };
   const reset = () => {
+    if(isPostEmpty()) return; //이미 비어있음
+    const c = confirm("작성 중인 내용이 사라집니다. 초기화하시겠습니까?");
+    if(!c) return; //취소됨
     setTitle("");
     setBlocks([createTextEditorBlock()]);
   };
@@ -202,6 +224,7 @@ export default function CreatePostPage() {
                 // 이후 단계:
                 if(type === "prediction") newBlock = createPredictionEditorBlock(item);
                 else if(type === "live") newBlock = createLiveEditorBlock(item);
+                else if(type === "video") newBlock = createVideoEditorBlock(item);
                 else newBlock = createTextEditorBlock(); // 일단 기본값
                 insertBlockAfter(pickerTargetKey, newBlock);
               

@@ -25,11 +25,11 @@ export default function PostViewPage() {
   .slice()
   .sort((a : Block, b: Block) => parseInt(a.id) - parseInt(b.id));
   if (loading) {
-    return <div>불러오는 중...</div>;
+    return <div className="text-center">불러오는 중...</div>;
   }
 
   if (!post || prediction.length === 0) {
-    return <div>글을 불러올 수 없습니다.</div>;
+    return <div className="text-center">글을 불러올 수 없습니다.</div>;
   }
 
   return (
@@ -63,6 +63,9 @@ export default function PostViewPage() {
             }
             if(block.type === "live") {
               return <YtPlayer key={block.id} videoId={block?.videoId} auto={true} />;
+            }
+            if(block.type === "video") {
+              return <YtPlayer key={block.id} videoId={block?.videoId} auto={false} />; //거의 같지만 자동 재생만 방지
             }
           })}
         </div>

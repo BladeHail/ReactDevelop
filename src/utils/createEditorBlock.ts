@@ -1,5 +1,6 @@
-import type { PredictionBlock, TextBlock } from "../types/Blocks";
+import type { LiveBlock, PredictionBlock, TextBlock } from "../types/Blocks";
 import type { EditorBlock } from "../types/EditorBlocks";
+import type { LiveDto } from "../types/LiveDto";
 import type { MatchDto } from "../types/MatchDto";
 
 export function createPredictionEditorBlock(
@@ -11,6 +12,19 @@ export function createPredictionEditorBlock(
       id: "",
       type: "prediction",
       match,
+    },
+  };
+}
+
+export function createLiveEditorBlock(
+  live: LiveDto
+): EditorBlock<LiveBlock> {
+  return {
+    key: crypto.randomUUID(),
+    block: {
+      id: "",
+      type: "live",
+      live,
     },
   };
 }

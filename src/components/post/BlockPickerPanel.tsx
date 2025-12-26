@@ -3,7 +3,7 @@ import { api } from "../../api/axiosInstance";
 import PollBlockList from "./PollBlockList";
 import LiveBlockList from "./LiveBlockList";
 
-type BlockType = "live" | "poll" | "video";
+type BlockType = "live" | "prediction" | "video";
 
 type BlockPickerPanelProps = {
   open: boolean;
@@ -29,15 +29,15 @@ export default function BlockPickerPanel({
 
     const request =
       opened === "live"
-        ? api.get("/lives")
-        : opened === "poll"
+        ? api.get("/live-status")
+        : opened === "prediction"
         ? api.get("/predictions/matches")
         : Promise.resolve({ data: [] });
 
     request
       .then((res) => {
-        if (opened === "live") setLiveItems(res.data);
-        if (opened === "poll") setPollItems(res.data);
+        if (opened === "live") setLiveItems(res.data.videos ?? []);
+        if (opened === "prediction") setPollItems(res.data);
       })
       .finally(() => setLoading(false));
   }, [open, opened]);
@@ -49,13 +49,13 @@ export default function BlockPickerPanel({
         onSelect={(item) => onSelect("live", item)}
       />
     ),
-    poll: (
+    prediction: (
       <PollBlockList
         items={pollItems as any}
-        onSelect={(item) => onSelect("poll", item)}
+        onSelect={(item) => onSelect("prediction", item)}
       />
     ),
-    video: <div>영상 블록 선택 UI</div>,
+    video: <div>영상 블록 선택 UI(미구현)</div>,
   };
 
   if (!open) return null;
@@ -68,13 +68,13 @@ export default function BlockPickerPanel({
         <h2 className="font-semibold mb-3">블록 추가</h2>
 
         <div className="flex justify-around mb-4">
-          <button className="btn btn-primary" onClick={() => setOpened("live")}>
+          <button className="btn btn-primary p-2" onClick={() => setOpened("live")}>
             라이브
           </button>
-          <button className="btn btn-primary" onClick={() => setOpened("poll")}>
+          <button className="btn btn-primary p-2" onClick={() => setOpened("prediction")}>
             매치
           </button>
-          <button className="btn btn-primary" onClick={() => setOpened("video")}>
+          <button className="btn btn-primary p-2" onClick={() => setOpened("video")}>
             영상
           </button>
         </div>

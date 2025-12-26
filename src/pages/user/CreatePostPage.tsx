@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BlockPickerPanel from "../../components/post/BlockPickerPanel";
-import { createPredictionEditorBlock, createTextEditorBlock } from "../../utils/createEditorBlock";
+import { createLiveEditorBlock, createPredictionEditorBlock, createTextEditorBlock } from "../../utils/createEditorBlock";
 import type { AnyEditorBlock } from "../../types/EditorBlocks";
 import PredictionCard from "../../components/predictions/PredictionCard";
 import { api } from "../../api/axiosInstance";
+import YtPlayer from "../../components/Youtube/YtPlayer";
 
 
 export default function CreatePostPage() {
@@ -18,10 +19,6 @@ export default function CreatePostPage() {
   const [pickerOpen, setPickerOpen] = useState(false);
   const [pickerTargetKey, setPickerTargetKey] = useState<string | null>(null);
   const navigate = useNavigate();
-
-  //function isVideoBlock(block: Block): block is VideoBlock {
-  //  return block.type === "video";
-  //}
 
   /* 제목 */
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,7 +51,6 @@ export default function CreatePostPage() {
   }
   /* 저장 */
   const handleSubmit = async () => {
-    console.log(blocks.length);
     if(title.trim() === "" || title === null) {
       alert("제목을 입력해주세요.");
       return;
@@ -78,24 +74,39 @@ export default function CreatePostPage() {
               matchId: block.match?.id,
             };
           }
+          if (block.type === "live") {
+            return {
+              id: String(index + 1),
+              type: "live",
+              videoId: block.live?.videoId,
+            };
+          }
           return {...block, id: String(index + 1)};
         }),
     };
-    console.log("POSTing /posts", payload);
     await api.post("/posts", payload);
   };
 
-  const renderBlock = ({ key, block }: AnyEditorBlock) => {
-    if(block.type === "prediction" && block.match !== null) return (
+  const renderBlock = ({ key, block }: AnyEditorBlock) => { //renderBlock이 너무 많이 호출됨, 원인을 찾을 수 있으면 좋으련만
+    if(block.type === "prediction" && block.match !== null) {
+      return (
       <div key={key} className="relative">
-        {<PredictionCard match={block.match} interactive={false} />}
+        <PredictionCard match={block.match} interactive={false} />
       </div>
-    );
-    
-    if(block.type === "text") return (
+    );}
+    if(block.type === "live" && block.live !== null) {
+      return (
+      <div key={key} className="relative">
+          <div className="">
+            <YtPlayer videoId={block.live.videoId} auto={true} />
+          </div>
+        </div>
+    );}
+    if(block.type === "text") {
+      return (
       <div key={key} className="relative flex flex-col">
         <textarea
-          className="resize-none outline-none leading-relaxed bg-transparent border-base-300 pr-12 pl-2"
+          className="resize-none outline-none overflow-hidden h-auto leading-relaxed bg-transparent border-base-300 pr-12 pl-2"
           value={block.type === "text" ? block.content : ""}
           onChange={e => updateTextBlock(key, e.target.value)}
           onFocus={e => {
@@ -131,7 +142,7 @@ export default function CreatePostPage() {
           </button>
         )}
       </div>
-    );
+    );}
     return <div key={key}>알 수 없는 블록 타입</div>;
   };
   const insertBlockAfter = ( targetKey: string, newBlock: AnyEditorBlock ) => {
@@ -153,14 +164,17 @@ export default function CreatePostPage() {
       ];
     });
   };
-
+  const reset = () => {
+    setTitle("");
+    setBlocks([createTextEditorBlock()]);
+  };
 
   return (
-    <div className="max-w-5xl mx-auto p-6 space-y-6 min-h-[calc(100vh-200px)] bg-base-200 rounded-xl">
-      <div className="flex flex-col min-h-[calc(100vh-200px)] p-2">
+    <div className="max-w-5xl mx-auto p-4 space-y-6 min-h-[calc(100vh-200px)] bg-base-200 rounded-xl">
+      <div className="flex flex-col min-h-[calc(100vh-200px)]">
         <div className="flex flex-col flex-1">
           <div className="flex">
-            <h1 className="text-2xl font-bold flex-1">새 글</h1>
+            <h1 className="mx-2 text-2xl font-bold mb-4 flex flex-1">새 글</h1> 
             <button className="btn btn-primary p-2 bg-base-100" onClick={() => {returnList()}}>← 목록으로</button>
           </div>
           <div className="mb-4"></div>
@@ -181,13 +195,14 @@ export default function CreatePostPage() {
             <BlockPickerPanel
               open={pickerOpen}
               onClose={() => setPickerOpen(false)}
-              onSelect={(item: any) => {
+              onSelect={(type: string, item: any) => {
                 if (!pickerTargetKey) return;
-              
+                let newBlock: AnyEditorBlock;
                 // 지금은 임시 로그
-                console.log("선택됨:", item);
                 // 이후 단계:
-                const newBlock = createPredictionEditorBlock(item);
+                if(type === "prediction") newBlock = createPredictionEditorBlock(item);
+                else if(type === "live") newBlock = createLiveEditorBlock(item);
+                else newBlock = createTextEditorBlock(); // 일단 기본값
                 insertBlockAfter(pickerTargetKey, newBlock);
               
                 setPickerOpen(false);
@@ -199,7 +214,7 @@ export default function CreatePostPage() {
           <div className="flex mt-2 justify-around">
             {/* 제출 */}
             <button
-              onClick={handleSubmit}
+              onClick={reset}
               className="btn btn-error px-6 py-2 rounded-lg text-white"
             >
               초기화

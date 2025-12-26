@@ -8,18 +8,11 @@ interface LiveBlockListProps {
 
 export default function LiveBlockList({items, onSelect,}: LiveBlockListProps) {
   if (items.length === 0) {
-    const dummy : LiveDto = {
-      videoId: "dMGHcOxk5YM",
-      title: "No Live Available",
-      channelName: "System",
-      channelId: "System",
-    }
-    items.push(dummy);
-    /*return (
+    return (
       <div className="text-sm text-base-content/60">
         선택 가능한 라이브가 없습니다.
       </div>
-    );*/
+    );
   }
 
   return (
@@ -30,19 +23,19 @@ export default function LiveBlockList({items, onSelect,}: LiveBlockListProps) {
         pb-2
       "
     >
-      {items.map((match) => (
+      {items.map((live) => (
         <div
-          key={match.videoId}
+          key={live.videoId}
           className="
             shrink-0
             cursor-pointer
             transition-transform
             hover:scale-[1.02]
           "
-          onClick={() => onSelect(match)}
+          onClick={() => onSelect(live)}
         >
           <LiveCard
-            video={match}
+            video={live}
             auto={false}
             interactive={false}
           />

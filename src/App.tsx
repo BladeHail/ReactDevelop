@@ -26,7 +26,8 @@ import PlayerEditPage from "./pages/admin/PlayerEditPage";
 import VideoList from "./pages/user/VideoList"
 import AdminVideo from "./pages/admin/AdminVideo"
 import CreatePostPage from "./pages/user/CreatePostPage";
-import PostPage from "./pages/user/PostPage";
+import PostViewPage from "./pages/user/PostViewPage";
+import PostListPage from "./pages/user/PostListPage";
 
 function App() {
   return (
@@ -48,8 +49,9 @@ function App() {
               <Route path="/players" element={<PlayerListPage />} />
               <Route path="/players/:id" element={<ProfilePage />} />
               <Route path="/predictions" element={<PredictionPage />} />
+              <Route path="/posts" element={<PostListPage />} />
               <Route path="/posts/new" element={<CreatePostPage />} />
-              <Route path="/posts/:id" element={<PostPage />} />
+              <Route path="/posts/:id" element={<PostViewPage />} />
               <Route path="/error/:status" element={<ErrorPage />} />
               <Route path="/news" element={<NewsListPage />} />
               <Route path="/live" element={<LiveListPage />} />

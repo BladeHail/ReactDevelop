@@ -1,7 +1,7 @@
 // src/components/Main/ProfileSections.tsx
 import { useEffect, useState } from "react";
 import {type Player} from "../../types/Player"
-import PostBox from "../board/PostBox";
+import BoardBox from "../board/PostBox";
 import { useLocation } from "react-router-dom";
 
 export default function ProfileSections({player}: {player : Player}) {
@@ -51,7 +51,7 @@ export default function ProfileSections({player}: {player : Player}) {
           {/* <div className="text-lg btn m-4 mt-0 bg-base-100" onClick={enclose}>펼치기/접기</div> */}
         </div>
         <div className="divider my-4"></div>
-        <PostBox playerId={player.id} />
+        <BoardBox playerId={player.id} />
       </div>
     </section>
   );

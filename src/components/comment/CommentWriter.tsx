@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { api } from "../../api/axiosInstance";
 
-export default function BoardWriter({playerId, onSuccess} : {playerId : number, onSuccess: any}) {
+export default function CommentWriter({playerId, onSuccess} : {playerId : number, onSuccess: any}) {
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");

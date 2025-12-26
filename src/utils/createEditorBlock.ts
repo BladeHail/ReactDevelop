@@ -43,12 +43,43 @@ export function createVideoEditorBlock(
   };
 }
 
-export function createTextEditorBlock(): EditorBlock<TextBlock>{
+export function createTextEditorBlock(content: string = ""): EditorBlock<TextBlock>{
   return {key: crypto.randomUUID(),
     block: {
       id: "",               // 서버 전송 전에는 비워둬도 무방
       type: "text",
-      content: "",
+      content: content,
     },
   };
 }
+
+/*
+if (block.type === "text") {
+        result.push(createTextEditorBlock(block.content));
+        return;
+      }
+
+      if (block.type === "prediction") {
+        result.push(
+          createPredictionEditorBlock({ id: block.matchId })
+        );
+        result.push(createTextEditorBlock());
+        return;
+      }
+
+      if (block.type === "live") {
+        result.push(
+          createLiveEditorBlock({ videoId: block.videoId })
+        );
+        result.push(createTextEditorBlock());
+        return;
+      }
+
+      if (block.type === "video") {
+        result.push(
+          createVideoEditorBlock({ videoId: block.videoId })
+        );
+        result.push(createTextEditorBlock());
+        return;
+      }
+ */

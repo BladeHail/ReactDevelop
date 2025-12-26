@@ -15,7 +15,7 @@ export function AdminMenu() {
           </div>
           <div className="flex flex-row">
           <button className="flex-1 px-4 py-3 text-left hover:bg-base-200" onClick={() => navigate("/posts")}>게시판</button>
-          <button className="px-4 py-3 text-left hover:bg-base-200 " onClick={() => navigate("/live")}>관리자: 게시판 관리</button>
+          <button className="px-4 py-3 text-left hover:bg-base-200 " onClick={() => navigate("/admin/posts")}>관리자: 게시판 관리</button>
           </div>
           <div className="flex flex-row">
           <button className="flex-1 px-4 py-3 text-left hover:bg-base-200" onClick={() => navigate("/videos")}>동영상</button>

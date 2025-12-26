@@ -16,13 +16,7 @@ export default function LiveBlockList({items, onSelect,}: LiveBlockListProps) {
   }
 
   return (
-    <div
-      className="
-        flex gap-4
-        overflow-x-auto
-        pb-2
-      "
-    >
+    <div className="flex gap-4 pb-2">
       {items.map((live) => (
         <div
           key={live.videoId}

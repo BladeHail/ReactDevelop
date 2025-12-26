@@ -1,8 +1,8 @@
 import { useState } from "react";
-import BoardList from "./PostList";
-import BoardWriter from "./PostWriter";
+import CommentList from "./CommentList";
+import CommentWriter from "./CommentWriter";
 
-export default function BoardBox({playerId} : {playerId : number}) {
+export default function CommentBox({postId} : {postId : number}) {
     const [refreshToken, setRefreshToken] = useState(0);
 
       // PostWriter가 호출
@@ -12,8 +12,8 @@ export default function BoardBox({playerId} : {playerId : number}) {
       };
     return(
         <div>
-            <BoardList playerId={playerId} refresh={refreshToken} />
-            <BoardWriter playerId={playerId} onSuccess={handlePostCreated} />
+            <CommentList postId={postId} refresh={refreshToken} />
+            <CommentWriter playerId={postId} onSuccess={handlePostCreated} />
         </div>
     )
 }

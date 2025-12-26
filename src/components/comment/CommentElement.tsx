@@ -3,7 +3,7 @@ import type { BoardDto } from "../../types/BoardDto";
 import getName from "../../utils/getName";
 import { useState } from "react";
 
-export default function BoardElement({comment, interactive = true} : {comment : BoardDto, interactive: boolean}) {
+export default function CommentElement({comment, interactive = true} : {comment : BoardDto, interactive: boolean}) {
   const [hidden, setHidden] = useState(false);
   const [onEdit, setOnEdit] = useState(false);
   const [isYourComment, setIsYourComment] = useState<"yes" | "no" | "not yet">("not yet");

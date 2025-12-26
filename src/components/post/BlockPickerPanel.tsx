@@ -1,8 +1,9 @@
-import { useEffect, useState, type JSX } from "react";
+import { useEffect, useRef, useState, type JSX } from "react";
 import { api } from "../../api/axiosInstance";
 import PollBlockList from "./PollBlockList";
 import LiveBlockList from "./LiveBlockList";
 import VideoBlockList from "./VideoBlockList";
+import { useHorizontalWheel } from "../../utils/useHorizontalWheel";
 
 type BlockType = "live" | "prediction" | "video";
 
@@ -23,6 +24,9 @@ export default function BlockPickerPanel({
   const [liveItems, setLiveItems] = useState<unknown[]>([]);
   const [pollItems, setPollItems] = useState<unknown[]>([]);
   const [videoItems, setVideoItems] = useState<unknown[]>([]);
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+  useHorizontalWheel(scrollRef, open);  
 
   useEffect(() => {
     if (!open) return;
@@ -68,8 +72,9 @@ export default function BlockPickerPanel({
     )
   };
 
+  
   if (!open) return null;
-
+  
   return (
     <div className="fixed inset-0 z-50 flex items-end">
       <div className="absolute inset-0 bg-black/30" onClick={onClose} />
@@ -88,8 +93,9 @@ export default function BlockPickerPanel({
             영상
           </button>
         </div>
-
-        {loading ? <div>로딩 중...</div> : listMap[opened]}
+        <div ref={scrollRef} className="overflow-x-auto">
+          {loading ? <div>로딩 중...</div> : listMap[opened]}
+        </div>
       </div>
     </div>
   );

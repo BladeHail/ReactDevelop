@@ -6,6 +6,14 @@ export interface PostSummary {
   createdAt: string;
 }
 
+export interface AdminPost{
+  id: number;
+  title: string;
+  authorName: string;
+  createdAt: string;
+  deleted: boolean;
+}
+
 export interface PageResponse<T> {
   content: T[];
   number: number;

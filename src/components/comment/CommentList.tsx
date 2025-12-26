@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { api } from "../../api/axiosInstance";
 import type { BoardDto } from "../../types/BoardDto";
-import BoardElement from "./PostElement";
+import CommentElement from "./CommentElement";
 
-export default function BoardList({
-  playerId,
+export default function CommentList({
+  postId,
   refresh,
 }: {
-  playerId: number;
+  postId: number;
   refresh: number;
 }) {
   const [comments, setComments] = useState<BoardDto[]>([]);
@@ -36,7 +36,7 @@ export default function BoardList({
       setLoading(true);
       const reqId = ++requestIdRef.current;
       const res = await api.get(
-        `/boards/players/${playerId}/boards?page=${pageNumber}&size=${size}&sort=createdAt,asc`
+        `/comments/${postId}?page=${pageNumber}&size=${size}&sort=createdAt,asc`
       );
       if (reqId !== requestIdRef.current) {
         return;
@@ -94,7 +94,7 @@ export default function BoardList({
 
       {/* 현재 댓글 목록 — 깜빡임 없이 지속 유지 */}
       {comments.map((cmt) => (
-        <BoardElement key={cmt.id} comment={cmt} interactive={true}/>
+        <CommentElement key={cmt.id} comment={cmt} interactive={true}/>
       ))}
 
       {/* 페이징 UI */}

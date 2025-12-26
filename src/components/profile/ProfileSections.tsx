@@ -1,7 +1,7 @@
 // src/components/Main/ProfileSections.tsx
 import { useEffect, useState } from "react";
 import {type Player} from "../../types/Player"
-import PostBox from "../post/PostBox";
+import PostBox from "../board/PostBox";
 import { useLocation } from "react-router-dom";
 
 export default function ProfileSections({player}: {player : Player}) {

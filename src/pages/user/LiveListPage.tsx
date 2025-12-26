@@ -25,7 +25,7 @@ export default function LiveListPage() {
       )}
       <div className="w-full grid grid-cols-1 lg:grid-cols-2">
         {videos != undefined && videos.map(video => (
-          < YtCard key={video.videoId} video={video} />
+          <YtCard key={video.videoId} video={video} auto={true} interactive={true} />
         ))}
       </div>
     </div>

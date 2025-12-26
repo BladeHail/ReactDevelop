@@ -21,7 +21,7 @@ export function MenuDropdown() {
 
           <button
             className="px-4 py-3 text-left hover:bg-base-200 rounded-b-xl"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/posts")}
           >
             게시판
           </button>

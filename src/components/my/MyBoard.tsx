@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import type { BoardDto } from "../../types/BoardDto";
-import PostElement from "../post/PostElement";
+import PostElement from "../board/PostElement";
 
 export default function MyPrediction({post} : {post: BoardDto}){
     const navigate = useNavigate();

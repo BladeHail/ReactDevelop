@@ -7,7 +7,6 @@ export default function BoardBox({playerId} : {playerId : number}) {
 
       // PostWriter가 호출
       const handlePostCreated = () => {
-        console.log(refreshToken);
         setRefreshToken((t) => t + 1);  // 변경 시 PostList는 새로 fetch
       };
     return(

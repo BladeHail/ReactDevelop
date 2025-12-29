@@ -18,7 +18,7 @@ export default function CommentList({
   // 페이징
   const [page, setPage] = useState(0);
   const size = 100;
-  const [lastPage, setLastPage] = useState(false);
+  //const [lastPage, setLastPage] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
 
   const requestIdRef = useRef(0);
@@ -45,7 +45,7 @@ export default function CommentList({
       }
       // Page<T> 전제
       const fetched = res.data.content ?? res.data;
-      const isLast = res.data.last ?? false;
+      //const isLast = res.data.last ?? false;
       setTotalPages(res.data.totalPages ?? 1);
       // 기존 목록에 merge
       if (isMerging) {
@@ -53,7 +53,7 @@ export default function CommentList({
       } else {
         setComments(fetched);
       }
-      setLastPage(isLast);
+      //setLastPage(isLast);
       return res.data.totalPages ?? 1;
     } catch (err) {
       console.error(err);
@@ -148,7 +148,7 @@ export default function CommentList({
     <div className="w-full bg-base-200 space-y-4 rounded-xl p-4 relative">
 
       {/* 현재 댓글 목록 — 깜빡임 없이 지속 유지 */}
-      {orderedComments.map((cmt) => (
+      {orderedComments.length > 0 ? orderedComments.map((cmt) => (
         cmt.parentId != null ?
         <CommentElement 
         key={cmt.id} 
@@ -165,10 +165,13 @@ export default function CommentList({
         interactive={true} 
         parentContent="" 
         onReplyAct={onReply}/>
-      ))}
+      )) 
+    :
+      <div className="p-6 text-center bg-base-100 rounded-xl text-base-content/60">등록된 댓글이 없습니다.</div>
+      }
 
       {/* 페이징 UI */}
-      <div className="flex justify-between items-center pt-4">
+      {/*<div className="flex justify-between items-center pt-4">
         <button
           className="btn btn-sm"
           onClick={() => setPage((p) => Math.max(p - 1, 0))}
@@ -186,7 +189,7 @@ export default function CommentList({
         >
           {lastPage ? "▷" : "▶"}
         </button>
-      </div>
+      </div>*/}
 
       {/* 로딩 오버레이: 목록 깜빡임 없이 표시 */}
       {loading && (

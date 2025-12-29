@@ -1,28 +1,30 @@
 import { useEffect, useRef, useState } from "react";
 import { api } from "../../api/axiosInstance";
-import type { BoardDto } from "../../types/BoardDto";
 import CommentElement from "./CommentElement";
+import type { CommentDto } from "../../types/Comment";
 
 export default function CommentList({
   postId,
   refresh,
+  onReply = null,
 }: {
   postId: number;
   refresh: number;
+  onReply: (() => void) | null;
 }) {
-  const [comments, setComments] = useState<BoardDto[]>([]);
+  const [comments, setComments] = useState<CommentDto[]>([]);
   const [loading, setLoading] = useState(true);
   const [init, setInit] = useState(true);
   // 페이징
   const [page, setPage] = useState(0);
-  const size = 10;
+  const size = 100;
   const [lastPage, setLastPage] = useState(false);
   const [totalPages, setTotalPages] = useState(1);
 
   const requestIdRef = useRef(0);
 
   /** merge 기반 incremental update */
-  const mergeComments = (prev: BoardDto[], fetched: BoardDto[]) => {
+  const mergeComments = (prev: CommentDto[], fetched: CommentDto[]) => {
     // 기존 prev에 없는 fetched만 추가
     const newOnes = fetched.filter(
       (item) => !prev.some((p) => p.id === item.id)
@@ -60,6 +62,59 @@ export default function CommentList({
       setLoading(false);
     }
   };
+  const buildOrderedComments = (list: CommentDto[]) => {
+    type Node = CommentDto & {
+      replies: Node[];
+      depth: number;
+    };
+
+    const map = new Map<number, Node>();
+    const roots: Node[] = [];
+
+    // 1) 노드 초기화 (depth 기본값 0)
+    for (const c of list) {
+      map.set(c.id, { ...c, replies: [], depth: 0 });
+    }
+
+    // 2) 부모-자식 연결 + depth 전파
+    for (const node of map.values()) {
+      if (node.parentId != null) {
+        const parent = map.get(node.parentId);
+        if (parent) {
+          node.depth = parent.depth + 1;   // ⭐ 핵심
+          parent.replies.push(node);
+        } else {
+          // 부모가 없으면 root 취급 (depth = 0 유지)
+          roots.push(node);
+        }
+      } else {
+        roots.push(node);
+      }
+    }
+
+    // 3) (선택) replies 정렬
+    const sortTree = (n: Node) => {
+      n.replies.sort((a, b) =>
+        a.createdAt.localeCompare(b.createdAt)
+      );
+      n.replies.forEach(sortTree);
+    };
+    roots.forEach(sortTree);
+
+    // 4) flatten
+    const ordered: (CommentDto & { depth: number })[] = [];
+    const dfs = (n: Node) => {
+      ordered.push(n);
+      n.replies.forEach(dfs);
+    };
+    roots.forEach(dfs);
+
+    return ordered;
+  };
+
+
+
+
    // 첫 로딩: 아직 page=0이지만 서버 totalPages를 모름
   useEffect(() => {
     loadComments(0).then(tp => {
@@ -86,15 +141,30 @@ export default function CommentList({
     loadComments(page).then(() => setLoading(false));
   }, [page]);
 
-
+  const orderedComments = buildOrderedComments(comments);
   if (comments.length === 0 && loading)
     return <div className="p-6">불러오는 중...</div>;
   return (
     <div className="w-full bg-base-200 space-y-4 rounded-xl p-4 relative">
 
       {/* 현재 댓글 목록 — 깜빡임 없이 지속 유지 */}
-      {comments.map((cmt) => (
-        <CommentElement key={cmt.id} comment={cmt} interactive={true}/>
+      {orderedComments.map((cmt) => (
+        cmt.parentId != null ?
+        <CommentElement 
+        key={cmt.id} 
+        comment={cmt} 
+        depth={cmt.depth}
+        interactive={true} 
+        parentContent={`${comments.find(c => c.id === cmt.parentId)?.author || ""} ${comments.find(c => c.id === cmt.parentId)? " | " : ""} ${comments.find(c => c.id === cmt.parentId)?.content || "(삭제된 댓글)"}`} 
+        onReplyAct={onReply} />
+        :
+        <CommentElement 
+        key={cmt.id} 
+        comment={cmt} 
+        depth={cmt.depth}
+        interactive={true} 
+        parentContent="" 
+        onReplyAct={onReply}/>
       ))}
 
       {/* 페이징 UI */}

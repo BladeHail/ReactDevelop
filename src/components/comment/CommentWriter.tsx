@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { api } from "../../api/axiosInstance";
 
-export default function CommentWriter({playerId, onSuccess} : {playerId : number, onSuccess: any}) {
+export default function CommentWriter({postId, onSuccess} : {postId : number, onSuccess: any}) {
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -14,9 +14,10 @@ export default function CommentWriter({playerId, onSuccess} : {playerId : number
   try {
     setLoading(true);
     setMessage("");
-    await api.post(`/boards/players/${playerId}/boards`, {
-      title: `${playerId}_comment`,
+    await api.post(`/comments/${postId}`, {
+      title: `${postId}_comment`,
       content: content,
+      postId: postId,
     });
     setMessage("게시글이 등록되었습니다!");
     setContent("");

@@ -2,6 +2,6 @@ export default function getName(rawName : string, replacable: string | null = nu
     //more logic if required
     if(rawName === null) rawName = "";
     const spliter = rawName.split('@')[0];
-    if(spliter === rawName && replacable !== null) return replacable;
+    if(spliter === rawName && spliter.length > 12 && replacable !== null) return replacable;
     return spliter;
 }

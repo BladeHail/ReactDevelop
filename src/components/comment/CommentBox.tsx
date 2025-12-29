@@ -12,8 +12,8 @@ export default function CommentBox({postId} : {postId : number}) {
       };
     return(
         <div>
-            <CommentList postId={postId} refresh={refreshToken} />
-            <CommentWriter playerId={postId} onSuccess={handlePostCreated} />
+            <CommentList postId={postId} refresh={refreshToken} onReply={handlePostCreated} />
+            <CommentWriter postId={postId} onSuccess={handlePostCreated} />
         </div>
     )
 }

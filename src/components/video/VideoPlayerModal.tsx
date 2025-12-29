@@ -48,9 +48,6 @@ export default function VideoPlayerModal({
             </div>
           </div>
         </div>
-
-        {/* 모달 바깥 배경 클릭 시 닫기 */}
-        <div className="modal-backdrop bg-black/70" onClick={onClose}></div>
       </div>
     </div>
   );

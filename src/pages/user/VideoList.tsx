@@ -43,7 +43,7 @@ export default function VideoList() {
       )}
 
       {/* 바둑판 방식 그리드 레이아웃 */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 place-items-start">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 place-items-start">
         {videos.map((video) => (
           <VideoBlock key={video.videoId} video={video}
           onClick={() => setSelectedVideo(video)} />

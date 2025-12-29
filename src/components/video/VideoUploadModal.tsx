@@ -75,10 +75,10 @@ export default function VideoUploadModal({isOpen, onClose, onSuccess}: VideoUplo
           </div>
 
           <div className="gap-4 modal-action">
-            <button type="button" className="px-6 btn btn-primary" onClick={onClose}>취소</button>
-            <button type="submit" className="px-6 btn btn-primary" disabled={uploading}>
+            <button type="submit" className="px-3 btn btn-primary btn-outline" disabled={uploading}>
               {uploading ? "등록 중..." : "등록하기"}
             </button>
+            <button type="button" className="px-3 btn btn-error btn-outline" onClick={onClose}>취소</button>
           </div>
         </form>
       </div>

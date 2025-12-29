@@ -272,6 +272,7 @@ export default function CreatePostPage() {
         if (block.type === "video") {
           result.push(
             createVideoEditorBlock({ 
+              id: 0,
               title: "",
               videoId: block.videoId,
               thumbnailUrl: "",

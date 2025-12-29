@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
-import { Navbar } from "./Navbar";
+import { LoginNavbar } from "./LoginNavbar";
 
 export default function LoginLayout() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar />
+      <LoginNavbar />
       <div className="flex flex-1 px-4 lg:px-8 gap-6 mt-4">
         <div className="flex-1">
           <Outlet />

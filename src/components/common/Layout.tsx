@@ -22,6 +22,12 @@ export default function Layout() {
         </div>
         {/* {<SideContainer onPreview={(nw) => setSelectedNews(nw)} />} */}
       </div>
+      <div className="w-full h-auto bg-transparent fixed bottom-0 left-0 flex justify-end">
+        <div className="flex flex-col m-4 space-y-2">
+          <a href="#top" className="btn ml-2">▲</a>
+          <a href="#bottom" className="btn ml-2">▼</a>
+        </div>
+      </div>
     </div>
   );
 }

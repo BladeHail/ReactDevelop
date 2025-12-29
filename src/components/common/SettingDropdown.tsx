@@ -19,12 +19,5 @@ export function SettingDropdown() {
           >
             내 정보
           </button>
-
-          <button
-            className="text-left px-4 py-3 hover:bg-base-200 rounded-b-xl"
-            onClick={() => navigate("/settings")}
-          >
-            설정
-          </button>
         </div>)
 }

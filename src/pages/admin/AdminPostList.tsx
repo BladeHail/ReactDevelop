@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import { api } from "../../api/axiosInstance";
-import { type PageResponse, type PostSummary } from "../../types/Post";
+import { type AdminPost, type PageResponse, } from "../../types/Post";
 import { useNavigate } from "react-router-dom";
 import getName from "../../utils/getName";
 
-export default function PostListPage() {
+export default function AdminPostList() {
   const [page, setPage] = useState(0);
-  const [data, setData] = useState<PageResponse<PostSummary> | null>(null);
+  const [data, setData] = useState<PageResponse<AdminPost> | null>(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
     api
-      .get<PageResponse<PostSummary>>("/posts", {
+      .get<PageResponse<AdminPost>>("/posts/admin", {
         params: {
           page,
           size: 10,
@@ -34,17 +34,16 @@ export default function PostListPage() {
   return (
     <div className="w-full bg-base-200 max-w-5xl mx-auto p-4 space-y-4 rounded-xl">
       <div className="flex flex-row">
-        <h1 className="mx-2 text-2xl font-bold mb-4 flex flex-1">게시글 목록</h1>
-        <button className="btn btn-primary p-2" onClick={() => navigate("/posts/new")}>+ 새 글</button>
+        <h1 className="mx-2 text-2xl font-bold mb-4 flex flex-1">게시판 관리</h1>
       </div>
       <ul className="space-y-2 flex flex-col gap-1">
         {data.content.map((post) => (
-          <a className="cursor-pointer" key={post.id} onClick={() => {navigate(`/posts/${post.id}`)}}>
+          <a className="cursor-pointer" key={post.id} onClick={() => {navigate(`/admin/posts/${post.id}`)}}>
             <li
               key={post.id}
               className="p-4 rounded-xl bg-base-100 hover:bg-base-300 transition"
             >
-              <div className="text-lg font-semibold">{post.title}</div>
+              <div className="text-lg font-semibold">{post.deleted ? "[삭제됨] : " : ""}{post.title}</div>
               <div className="text-sm text-gray-500 flex justify-between">
                 <span>{getName(post.authorName)}</span>
                 <span>{new Date(post.createdAt).toLocaleString()}</span>

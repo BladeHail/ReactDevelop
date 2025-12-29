@@ -15,7 +15,7 @@ export default function PostViewPage() {
     const navigate = useNavigate();
     const { id } = useParams();
     useEffect(() => {
-      api.get(`/posts/${id}`).then(res => {
+      api.get(`/posts/${id}/admin`).then(res => {
         setPost(res.data);
       });
       api.get("/predictions/matches").then(res => {
@@ -31,7 +31,7 @@ export default function PostViewPage() {
     if (!confirm("정말로 이 글을 삭제하시겠습니까?")) return;
     api.delete(`/posts/${id}`).then(() => {
       alert("글이 성공적으로 삭제되었습니다.");
-      navigate("/posts");
+      setPost({...post, deleted: true});
     });
   };
   if (loading) {
@@ -49,7 +49,7 @@ export default function PostViewPage() {
           <h1 className="mx-2 text-2xl font-bold mb-4 flex flex-1">
             {post.title}
           </h1>
-          <button className="btn btn-primary p-2 bg-base-100" onClick={() => navigate("/posts")}>뒤로</button>
+          <button className="btn btn-primary p-2 bg-base-100" onClick={() => navigate("/admin/posts")}>뒤로</button>
         </div>
         <div className="divider"/>
         <div className="flex">
@@ -79,13 +79,12 @@ export default function PostViewPage() {
             }
           })}
         </div>
-        <div className="grid grid-cols-2 gap-4">
-          <button className="btn btn-warning" onClick={() => navigate(`/posts/${id}/edit`)}>글 수정</button>
-          <button className="btn btn-error" onClick={() => deletePost()}>글 삭제</button>
+        <div className="grid gap-4">
+          {post.deleted === true ? <button className="btn btn-disabled text-3xl font-bold">이미 삭제된 글</button> : <button className="btn btn-error" onClick={() => deletePost()}>글 삭제</button>}
         </div>
         <div className="divider" />
         <div className="">
-          <CommentBox postId={parseInt(id!)} />
+            <CommentBox postId={parseInt(id!)} />
         </div>
       </article>
     </div>

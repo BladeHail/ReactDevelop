@@ -16,13 +16,7 @@ export default function PollBlockList({items, onSelect,}: PollBlockListProps) {
   }
 
   return (
-    <div
-      className="
-        flex gap-4
-        overflow-x-auto
-        pb-2
-      "
-    >
+    <div className="flex gap-4 pb-2">
       {items.map((match) => (
         <div
           key={match.id}

@@ -3,11 +3,14 @@ import { api } from "../../api/axiosInstance";
 import type { VideoResponseDto } from "../../types/VideoResponseDto";
 import AdminVideoCard from "../../components/video/AdminVideoCard";
 import VideoUploadModal from "../../components/video/VideoUploadModal";
+import VideoEditModal from "../../components/video/VideoEditModal";
 
 export default function AdminVideo() {
   const [videos, setVideos] = useState<VideoResponseDto[]>([]);
   const [loading, setLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+  const [selectedVideo, setSelectedVideo] = useState<VideoResponseDto | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
 
   const fetchVideos = () => {
     setLoading(true);
@@ -16,6 +19,22 @@ export default function AdminVideo() {
       .then((res) => setVideos(res.data))
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));
+  };
+  // 삭제 처리
+  const handDelete = (id: number) => {
+    if (!window.confirm("정말 이 영상을 삭제하시겠습니까?")) return;
+
+    api.delete("/videos/admin/" + id)
+    .then(() => {
+      alert("삭제되었습니다.");
+      fetchVideos();
+    })
+    .catch((err) => alert("삭제 실패:" + err.message));
+  };
+  // 수정 모달 열기
+  const handleEditClick = (video: VideoResponseDto) => {
+    setSelectedVideo(video);
+    setIsEditModalOpen(true);
   };
 
   useEffect(() => {
@@ -31,8 +50,8 @@ export default function AdminVideo() {
         <h1 className="mx-2 text-2xl font-bold mb-6 flex flex-1">동영상 목록</h1>
         {/* 버튼 클릭 시 모달 열기 */}
         <button
-          className="btn btn-primary"
-          onClick={() => setIsModalOpen(true)}
+          className="btn btn-primary btn-outline"
+          onClick={() => setIsUploadModalOpen(true)}
         >
           + 새 영상 업로드
         </button>
@@ -44,16 +63,30 @@ export default function AdminVideo() {
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {videos.map((video) => (
-          <AdminVideoCard key={video.videoId} video={video} />
+          <AdminVideoCard key={video.videoId} video={video}
+          onEdit={() => handleEditClick(video)}
+          onDelete={() => handDelete(video.id)} />
         ))}
       </div>
 
       {/* 업로드 모달 연결 */}
       <VideoUploadModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        isOpen={isUploadModalOpen}
+        onClose={() => setIsUploadModalOpen(false)}
         onSuccess={fetchVideos}
       />
+      {/* 수정 모달 연결 */}
+      {selectedVideo && (
+        <VideoEditModal
+        isOpen={isEditModalOpen}
+        video={selectedVideo}
+        onClose={() => {
+          setIsEditModalOpen(false);
+          setSelectedVideo(null);
+        }}
+        onSuccess={fetchVideos}
+        />
+      )}
     </div>
   );
 }

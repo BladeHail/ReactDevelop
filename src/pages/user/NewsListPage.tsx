@@ -15,9 +15,9 @@ export default function NewsListPage() {
 
   if (loading) return <div className="p-6">불러오는 중...</div>;
   return (
-    <div className="w-full max-w-5xl bg-base-200 mx-auto p-4 space-y-4 rounded-xl">
+    <div className="w-full bg-base-200 max-w-5xl mx-auto p-4 space-y-4 rounded-xl">
       <div className="flex flex-row">
-        <h1 className="mx-2 text-2xl font-bold mb-4 flex-1">늬우스</h1>
+        <h1 className="mx-2 text-2xl font-bold mb-4 flex flex-1">뉴스</h1>
         <h1 className="btn mx-2 text-2xl font-bold mb-4" onClick={() => {
           setDesc(desc !== true)
           setNews(prev => [...prev].reverse());

@@ -22,10 +22,10 @@ export default function VideoList() {
   if (loading) return <div className="p-6">불러오는 중...</div>;
 
   return (
-    <div className="relative w-full max-w-5xl p-4 mx-auto space-y-4 bg-base-200 rounded-xl">
+    <div className="w-full bg-base-200 max-w-5xl mx-auto p-4 space-y-4 rounded-xl">
       {/* 헤더 영역 */}
       <div className="flex flex-row items-center">
-        <h1 className="flex-1 mx-2 mb-4 text-2xl font-bold">동영상 목록</h1>
+        <h1 className="mx-2 text-2xl font-bold mb-6 flex flex-1">동영상 목록</h1>
         <button
           className="mx-2 mb-4 btn"
           onClick={() => {
@@ -33,7 +33,7 @@ export default function VideoList() {
             setVideos((prev) => [...prev].reverse());
           }}
         >
-          {desc === true ? "보는 중: 최신" : "보는 중: 이전"}
+          {desc === false ? "보는 중: 최신" : "보는 중: 이전"}
         </button>
       </div>
 

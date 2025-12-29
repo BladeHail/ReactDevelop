@@ -1,4 +1,4 @@
-import type { Block, PredictionBlock, TextBlock } from "./Blocks";
+import type { Block, LiveBlock, PredictionBlock, TextBlock, VideoBlock } from "./Blocks";
 
 export type EditorBlock<T extends Block = Block> = {
   key: string;   // 프런트 전용 (React key)
@@ -7,4 +7,6 @@ export type EditorBlock<T extends Block = Block> = {
 
 export type AnyEditorBlock =
   | EditorBlock<TextBlock>
-  | EditorBlock<PredictionBlock>;
+  | EditorBlock<PredictionBlock>
+  | EditorBlock<LiveBlock>
+  | EditorBlock<VideoBlock>;

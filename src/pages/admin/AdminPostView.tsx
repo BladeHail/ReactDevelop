@@ -46,9 +46,12 @@ export default function PostViewPage() {
     <div>
       <article className="max-w-5xl mx-auto px-4 py-6 rounded-xl bg-base-200 space-y-6">
         <div className="flex">
-          <h1 className="mx-2 text-2xl font-bold mb-4 flex flex-1">
-            {post.title}
-          </h1>
+          <div className="flex flex-col flex-1">
+            <h1 className="mx-2 text-2xl font-bold mb-2">
+              {post.title}
+            </h1>
+            <p className="mx-2">{post.authorName}, {new Date(post.updatedAt).toLocaleString()}</p>
+          </div>
           <button className="btn btn-primary p-2 bg-base-100" onClick={() => navigate("/admin/posts")}>뒤로</button>
         </div>
         <div className="divider"/>

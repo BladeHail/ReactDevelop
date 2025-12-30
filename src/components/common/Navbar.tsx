@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { MenuDropdown } from "./MenuDropdown";
 import { SettingDropdown } from "./SettingDropdown";
+import home from "../../assets/home.svg";
 
 export function Navbar() {
   const { isLoggedIn, username, point } = useAuth();
@@ -21,6 +22,7 @@ export function Navbar() {
           >
             Paralympic Studio
           </a>
+          <img src={home} alt="profile" className="w-6 h-6 mt-1 cursor-pointer" onClick={() => {navigate("/")}}/>
         </div>
         {/* Hover Dropdown */}
         <MenuDropdown />

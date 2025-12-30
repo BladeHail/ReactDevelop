@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { api } from "../../api/axiosInstance";
 import AnchorBar from "../../components/Home/Anchor";
 import type { FeedDto } from "../../types/FeedDto";
-import FeedList from "../../components/Home/FeedList";
+import AdminFeed from "../../components/Home/AdminFeed";
 import { HEADER_IMAGES } from "../../../public/para/headerImages";
 
-export default function Home() {
+export default function AdminHome() {
   const init = useRef(true);
   const [feedItems, setFeedItems] = useState<FeedDto[]>([]);
   const [index, setIndex] = useState(0);
@@ -73,7 +73,7 @@ export default function Home() {
             </div>
             <div className="divider" />
             <div className="rounded-xl shadow p-6">
-                <FeedList feedItems={feedItems} />
+                <AdminFeed feedItems={feedItems} />
             </div>
         </div>
     </div>

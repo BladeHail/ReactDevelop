@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
 import { SettingDropdown } from "../SettingDropdown";
 import { AdminMenu } from "./AdminMenu";
+import home from "../../../assets/home.svg";
 
 export function AdminNavbar() {
   const { isLoggedIn, username } = useAuth();
@@ -17,10 +18,11 @@ export function AdminNavbar() {
           <a className="m-2 lg:my-0 text-xl cursor-pointer">☰</a>
           <a
             className="font-bold text-xl cursor-pointer"
-            onClick={() => navigate("/admin")}
+            onClick={() => navigate("/")}
           >
             Paralympic Studio
           </a>
+          <img src={home} alt="profile" className="w-6 h-6 mt-1 cursor-pointer" onClick={() => navigate("/admin")}/>
         </div>
         {/* Hover Dropdown */}
         <AdminMenu />

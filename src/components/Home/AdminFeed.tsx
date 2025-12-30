@@ -12,7 +12,7 @@ import prediction from "../../assets/prediction.svg";
 import post from "../../assets/post.svg";
 import { textLimiter } from "../../utils/textLimiter";
 
-export default function FeedList({feedItems} : {feedItems : FeedDto[]}) {
+export default function AdminFeed({feedItems} : {feedItems : FeedDto[]}) {
     const navigate = useNavigate();
     const renderFeedItem = (item: FeedDto) => {
         switch(item.itemType) {

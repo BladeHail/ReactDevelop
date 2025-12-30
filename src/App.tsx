@@ -31,7 +31,6 @@ import PostListPage from "./pages/user/PostListPage";
 import PostEditPage from "./pages/user/PostEditPage";
 import AdminPostList from "./pages/admin/AdminPostList";
 import AdminPostView from "./pages/admin/AdminPostView";
-import AdminHome from "./pages/admin/AdminHome";
 
 function App() {
   return (
@@ -40,7 +39,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route element={<AdminRoute><AdminLayout /></AdminRoute>}>
-              <Route path="/admin" element={<AdminHome />} />
+              <Route path="/admin" element={<Home />} />
               <Route path="/admin/players" element={<AdminPlayerList />} />
               <Route path="/admin/players/new" element={<NewPlayerPage />} />
               <Route path="/admin/players/edit/:id" element={<PlayerEditPage />} />

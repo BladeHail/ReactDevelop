@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { api } from "../../api/axiosInstance";
 import AnchorBar from "../../components/Home/Anchor";
 import type { FeedDto } from "../../types/FeedDto";
-import FeedList from "../../components/Home/FeedList";
 import { HEADER_IMAGES } from "../../../public/para/headerImages";
+import FeedList from "../../components/Home/FeedList";
 
 export default function Home() {
   const init = useRef(true);
@@ -12,14 +12,17 @@ export default function Home() {
   const [isFading, setIsFading] = useState(false);
   useEffect(() => {
     const interval = setInterval(() => {
-      setIsFading(true);
+      requestAnimationFrame(() => {
+        setIsFading(true);
+      });
       setTimeout(() => {
         setIndex((prev) => (prev + 1) % HEADER_IMAGES.length);
         setIsFading(false);
       }, 500);
     }, 5000);
-    return () => clearInterval(interval);
-  }, []);
+  return () => clearInterval(interval);
+}, []);
+  const nextIndex = (index + 1) % HEADER_IMAGES.length;
 
   useEffect(() => { // On Initial Load
     api.get('/feed').then(res => {
@@ -40,22 +43,22 @@ export default function Home() {
             <div className="flex flex-col">
                 <div className="relative w-full h-80 overflow-hidden rounded-t-xl">
                   <img
+                    src={HEADER_IMAGES[nextIndex].src}
+                    className="absolute inset-0 w-full h-full object-cover"
+                    style={{ transform: "scale(1.1)", objectPosition: HEADER_IMAGES[nextIndex].pos }}
+                  />
+
+                  {/* Foreground (이번 이미지, 애니메이션 담당) */}
+                  <img
                     key={index}
-                    src={HEADER_IMAGES[index]}
+                    src={HEADER_IMAGES[index].src}
                     className={`
                       absolute inset-0 w-full h-full object-cover
-                      transition-transform
+                      will-change-opacity
                       transition-opacity duration-500 ease-in-out
                       ${isFading ? "opacity-0" : "opacity-100"}
                     `}
-                  />
-                  {/* 다음 이미지 (항상 새 노드) */}
-                  <img
-                    key={`next-${index}`}
-                    src={HEADER_IMAGES[(index + 1) % HEADER_IMAGES.length]}
-                    className={`
-                      absolute inset-0 w-full h-full object-cover
-                      opacity-0`}
+                    style={{ transform: "scale(1.1)", objectPosition: HEADER_IMAGES[index].pos }}
                   />
                   {/* Overlay */}
                   <div className="absolute inset-0 bg-black/30" />

@@ -73,7 +73,7 @@ export default function MyPage() {
                 </div>
               </div>
               <div className="pb-8">
-                <h1 className={user.admin === true ? "text-6xl font-bold text-blue-600 m-4" : "text-6xl font-bold m-4"}>{getName(user.email, user.username)}</h1>
+                <h1 className={user.admin === true ? "text-3xl md:text-6xl font-bold text-blue-600 m-4" : "text-3xl md:text-6xl font-bold m-4"}>{getName(user.email, user.username)}</h1>
                 <p className="text-xl">{handleProvider(user.provider)}</p>
                 <p className="text-xs">{user.email !== null ? user.email : "이메일 없음"}</p>
               </div>

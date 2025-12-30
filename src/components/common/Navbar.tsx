@@ -3,6 +3,8 @@ import { useAuth } from "../../hooks/useAuth";
 import { MenuDropdown } from "./MenuDropdown";
 import { SettingDropdown } from "./SettingDropdown";
 import home from "../../assets/home.svg";
+import getName from "../../utils/getName";
+import { textLimiter } from "../../utils/textLimiter";
 
 export function Navbar() {
   const { isLoggedIn, username, point } = useAuth();
@@ -13,7 +15,7 @@ export function Navbar() {
       {/* Hover 메뉴 그룹 */}
       <div className="flex-1">
         <div className="inline-block group">
-          <div className="mx-4 relative flex gap-2 lg:gap-4 rounded-md bg-base-300 group">
+          <div className="mx-4 relative flex md:gap-2 lg:gap-4 rounded-md bg-base-300 group">
           {/* Anchor 역할 */}
           <a className="m-2 lg:my-0 text-xl cursor-pointer">☰</a>
           <a
@@ -34,7 +36,8 @@ export function Navbar() {
         {isLoggedIn && 
         <span className="font-semibold flex flex-row">
           <div className="flex flex-col">
-            <div className="text-xl">{username?.split('@')[0]}님</div> 
+            <div className="text-xl md:hidden">{username != null ? textLimiter(getName(username), 5) : "사용자"}님</div> 
+            <div className="text-xl hidden md:flex">{username != null ? textLimiter(getName(username), 20) : "사용자"}님</div> 
             <div>({point !== null ? point : 0} 포인트)</div>
           </div> 
           <a className="m-2 lg:my-0 text-xl cursor-pointer">☰</a> 

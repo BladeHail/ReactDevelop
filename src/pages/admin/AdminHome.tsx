@@ -20,6 +20,7 @@ export default function AdminHome() {
     }, 5000);
     return () => clearInterval(interval);
   }, []);
+  const nextIndex = (index + 1) % HEADER_IMAGES.length;
 
   useEffect(() => { // On Initial Load
     api.get('/feed').then(res => {
@@ -40,22 +41,22 @@ export default function AdminHome() {
             <div className="flex flex-col">
                 <div className="relative w-full h-80 overflow-hidden rounded-t-xl">
                   <img
-                    key={index}
-                    src={HEADER_IMAGES[index]}
+                    src={HEADER_IMAGES[nextIndex].src}
+                    className="absolute inset-0 w-full h-full object-cover"
+                    style={{ transform: "scale(1.1)", objectPosition: HEADER_IMAGES[nextIndex].pos }}
+                  />
+
+                  {/* Foreground (이번 이미지, 애니메이션 담당) */}
+                  <img
+                    key={index} // lifecycle 분리
+                    src={HEADER_IMAGES[index].src}
                     className={`
                       absolute inset-0 w-full h-full object-cover
-                      transition-transform
+                      transition-transform duration-[5000ms] ease-linear
                       transition-opacity duration-500 ease-in-out
                       ${isFading ? "opacity-0" : "opacity-100"}
                     `}
-                  />
-                  {/* 다음 이미지 (항상 새 노드) */}
-                  <img
-                    key={`next-${index}`}
-                    src={HEADER_IMAGES[(index + 1) % HEADER_IMAGES.length]}
-                    className={`
-                      absolute inset-0 w-full h-full object-cover
-                      opacity-0`}
+                    style={{ transform: "scale(1.1)", objectPosition: HEADER_IMAGES[index].pos }}
                   />
                   {/* Overlay */}
                   <div className="absolute inset-0 bg-black/30" />

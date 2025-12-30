@@ -78,7 +78,7 @@ export default function AdminFeed({feedItems} : {feedItems : FeedDto[]}) {
                         <div className="w-full cursor-pointer bg-base-300 p-2 rounded-xl group" key={item.order} onClick={() => {navigate(`/posts/${item.metadata.split("{")[1]}`)}}>
                             <div className="flex m-4 justify-center">
                                 <img src={post} alt="Prediction Icon" className="w-8 h-8 mr-2"/>
-                                <h2 className="font-bold text-2xl text-center">{getName(item.metadata.split("{")[0] +"님의", "최신")} 게시글: {item.title}</h2>
+                                <h2 className="font-bold text-2xl text-center">{item.metadata.length != 0 ? getName(item.metadata.split("{")[0]) + "님의" : "최신"} 게시글: {item.title}</h2>
                             </div>
                             <div className="w-full h-64 bg-base-100 rounded-xl overflow-hidden">
                                 <img

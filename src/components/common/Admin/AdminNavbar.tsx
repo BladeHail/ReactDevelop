@@ -12,20 +12,21 @@ export function AdminNavbar() {
     <div className="navbar bg-base-200 shadow relative">
       {/* Hover 메뉴 그룹 */}
       <div className="flex-1">
-        <div className="inline-block group">
-          <div className="mx-4 relative flex gap-2 lg:gap-4 rounded-md bg-base-300 group">
-          {/* Anchor 역할 */}
-          <a className="m-2 lg:my-0 text-xl cursor-pointer">☰</a>
-          <a
-            className="font-bold text-xl cursor-pointer"
-            onClick={() => navigate("/")}
-          >
-            Paralympic Studio
-          </a>
-          <img src={home} alt="profile" className="w-6 h-6 mt-1 cursor-pointer" onClick={() => navigate("/admin")}/>
+        <div className="inline-block">
+          <div className="mx-4 relative flex md:gap-2 lg:gap-4 rounded-md bg-base-300">
+            <div className="group">
+              <a className="m-2 lg:my-0 text-xl cursor-pointer group">☰</a>
+              <a
+                className="font-bold text-xl cursor-pointer"
+                onClick={() => navigate("/")}
+              >
+                Paralympic Studio
+              </a>
+              <AdminMenu />
+            </div>
+          <img src={home} alt="profile" className="w-6 h-6 mt-1 cursor-pointer" onClick={() => {navigate("/")}}/>
         </div>
         {/* Hover Dropdown */}
-        <AdminMenu />
         </div>
       </div>
 

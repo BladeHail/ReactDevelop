@@ -28,6 +28,7 @@ export default function PredictionCard({ match, interactive = true }: { match: M
   const [awayPercent, setAwayPercent] = useState(percent(match.awayAmount, match.homeAmount));
   const prevBet = useRef(match.yourPrevBet);
   const [bet, setBet] = useState(1);
+  const date = new Date(new Date(match.matchDate).getTime() + (9 * 60 * 60 * 1000)); 
   const handlePredict = async ( result : "HOME_WIN" | "AWAY_WIN") => {
     if (loading || (result === prev && bet === prevBet.current)) return;
     setLoading(true);
@@ -51,7 +52,7 @@ export default function PredictionCard({ match, interactive = true }: { match: M
   };
   return (
     <div className="card bg-base-100 shadow-lg p-5 border border-base-300 mt-4">
-      <p className="text-base-content/60 text-xs text-center mt-1">{new Date(match.matchDate).toLocaleString()}</p>
+      <p className="text-base-content/60 text-xs text-center mt-1">{date.toLocaleString()}</p>
       <h1 className="text-xl font-bold text-center"><span className="text-3xl">{match.teamA}</span> vs. <span className="text-3xl">{match.teamB}</span></h1>
       <h2 className="text-sm font-bold text-center">{match.description ?? "Fight!"}</h2>
       <div className={interactive === true ? "flex w-full h-2 m-2 rounded" : "flex w-full m-2 rounded"}>
@@ -70,7 +71,7 @@ export default function PredictionCard({ match, interactive = true }: { match: M
       <p className="font-semibold m-3 text-center">
           &nbsp;
         </p>}
-      {!match.predictionOpen || !(new Date(match.matchDate) > new Date()) ? (
+      {!match.predictionOpen || !(date > new Date()) ? (
         <p className="text-red-500 font-semibold mt-3">
           ❌ 예측 마감
         </p>

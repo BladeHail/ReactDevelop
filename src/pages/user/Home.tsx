@@ -20,8 +20,8 @@ export default function Home() {
         setIsFading(false);
       }, 500);
     }, 5000);
-  return () => clearInterval(interval);
-}, []);
+    return () => clearInterval(interval);
+  }, []);
   const nextIndex = (index + 1) % HEADER_IMAGES.length;
 
   useEffect(() => { // On Initial Load
@@ -59,7 +59,7 @@ export default function Home() {
                       ${isFading ? "opacity-0" : "opacity-100"}
                     `}
                     style={{ transform: "scale(1.1)", objectPosition: HEADER_IMAGES[index].pos }}
-                  />
+                    />
                   {/* Overlay */}
                   <div className="absolute inset-0 bg-black/30" />
                     

@@ -6,14 +6,18 @@ import type { PredictDto } from "../../types/PredictDto";
 import type { BoardDto } from "../../types/BoardDto";
 import MyPrediction from "../../components/my/MyPrediction";
 import MyBoard from "../../components/my/MyBoard";
+import MyPost from "../../components/my/MyPost";
 import Galaxy from "../../../public/galaxy.jpg";
+import type { PostSummary } from "../../types/Post";
 
 export default function MyPage() {
     const [user, setUser] = useState<UserDto | null>(null);
     const [myPre, setMyPre] = useState<PredictDto[] | null>(null);
     const [myBrd, setMyBrd] = useState<BoardDto[] | null>(null);
+    const [myPost, setMyPost] = useState<PostSummary[] | null>(null);
     const [openPre, setOpenPre] = useState(true);
     const [openBrd, setOpenBrd] = useState(true);
+    const [openPost, setOpenPost] = useState(true);
     const [loading, setLoading] = useState(true);
     const handleProvider = (provider: string ) => {
         if(user?.admin === true && user?.username === 'admin') return "관리자";
@@ -44,6 +48,11 @@ export default function MyPage() {
     api.get("predictions/my")
     .then((res => {
       setMyPre(res.data);
+    }))
+    .catch((e: any) => console.error(e));
+    api.get("posts/my")
+    .then((res => {
+      setMyPost(res.data);
     }))
     .catch((e: any) => console.error(e));
     api.get("boards/my")
@@ -86,6 +95,15 @@ export default function MyPage() {
                 <div className="btn btn-lg text-2xl mb-2" onClick={() => setOpenPre(!openPre)}>{openPre === true ? "접기" : "펼치기"}</div>
               </div>
               {(myPre !== null && openPre) ? myPre.map(predict => <MyPrediction key={predict.id} predict={predict}/>) : <div className="text-center">...</div>}
+            </div>
+          </section>
+          <section id="my-posts">
+            <div className="rounded-xl text-2xl font-bold bg-base-200 p-4 mt-1">
+              <div className="flex">
+                <div className="flex-1">내 게시글</div>
+                <div className="btn btn-lg text-2xl mb-2" onClick={() => setOpenPost(!openPost)}>{openPost === true ? "접기" : "펼치기"}</div>
+              </div>
+              {(myPost?.length !== 0 && openPost) ? myPost?.map(predict => <MyPost key={predict.id} post={predict}/>) : <div className="text-center">...</div>}
             </div>
           </section>
           <section id="my-boards">

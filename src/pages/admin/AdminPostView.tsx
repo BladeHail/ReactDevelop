@@ -50,7 +50,7 @@ export default function PostViewPage() {
             <h1 className="mx-2 text-2xl font-bold mb-2">
               {post.title}
             </h1>
-            <p className="mx-2">{post.authorName}, {new Date(post.updatedAt).toLocaleString()}</p>
+            <p className="mx-2">{new Date(post.updatedAt).toLocaleString()}</p>
           </div>
           <button className="btn btn-primary p-2 bg-base-100" onClick={() => navigate("/admin/posts")}>뒤로</button>
         </div>

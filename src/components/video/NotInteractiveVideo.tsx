@@ -1,4 +1,5 @@
 import { type VideoResponseDto } from "../../types/VideoResponseDto";
+import { textLimiter } from "../../utils/textLimiter";
 
 interface VideoBlockProps {
   video: VideoResponseDto;
@@ -20,7 +21,7 @@ export default function NotInteractiveVideo({ video }: VideoBlockProps) {
       </div>
       <div className="mt-3">
         <h3 className="font-semibold line-clamp-2 text-base-content">
-          {video.title}
+          {textLimiter(video.title, 35)}
         </h3>
       </div>
     </div>

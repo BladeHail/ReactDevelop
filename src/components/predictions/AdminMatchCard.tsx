@@ -3,9 +3,10 @@ import { api } from "../../api/axiosInstance";
 import { useEffect, useRef, useState } from "react";
 
 export default function AdminMatchCard({ match, interactive = true }: { match: MatchDto, interactive : boolean }) {
+  const [hidden, setHidden] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [predictable, setPredictable] = useState(match.predictionOpen);
-  const [date, setDate] = useState(new Date(match.matchDate));
+  const [date, setDate] = useState(new Date(new Date(match.matchDate).getTime() + (9 * 60 * 60 * 1000))); 
   const endPrediction = async(matchId: number) => {
     try {
         await api.put("/match", {
@@ -21,10 +22,39 @@ export default function AdminMatchCard({ match, interactive = true }: { match: M
         alert("예측 종료 실패: " + e.message);
     }
   };
+  const closingMatch = async(matchId: number, result: "HOME_WIN" | "AWAY_WIN") => {
+    try {
+        await api.put("/match", {
+            id: matchId,
+            predictionOpen: false,
+            result: result,
+            matchDate: new Date().toISOString(), // 한국 시간 맞추기
+        });
+          setRefresh(true);
+          setPredictable(false);
+    }
+    catch (e : any) {
+        console.error(e);
+        alert("결산 실패: " + e.message);
+    }
+  };
+  const removeMatch = async(matchId: number) => {
+    if(!confirm("정말로 이 경기를 삭제하시겠습니까? 삭제된 경기는 복구할 수 없습니다.")) return;
+    try {
+        await api.delete("/match", {
+            data: { id: matchId }
+        });
+        setRefresh(true);
+        setHidden(true);
+    }
+    catch (e : any) {
+        console.error(e);
+        alert("경기 삭제 실패: " + e.message);
+    }
+  };
   useEffect(() => {
     if(refresh === false) return;
     setDate(new Date());
-    setPredictable(true);
     setRefresh(false);
   }, [refresh]);
   const percent = (kid: number, mom: number, full: boolean = false) => {
@@ -34,6 +64,7 @@ export default function AdminMatchCard({ match, interactive = true }: { match: M
   }
   const homePercent = useRef(percent(match.homeAmount, match.awayAmount, true));
   const awayPercent = useRef(percent(match.awayAmount, match.homeAmount));
+  if(hidden === true) return null;
   return (
     <div className="card bg-base-100 shadow-lg p-5 border border-base-300 mt-4">
       <p className="text-base-content/60 text-xs text-center mt-1">{new Date(match.matchDate).toLocaleString()}</p>
@@ -53,8 +84,8 @@ export default function AdminMatchCard({ match, interactive = true }: { match: M
         {interactive === true ? (
           (predictable === true && date <= new Date()) ? (
             <div className="flex">
-              <button className="btn btn-primary font-semibold m-3 text-center p-4">{match.teamA} 승리</button>
-              <button className="btn btn-error font-semibold m-3 text-center p-4">{match.teamB} 승리</button>
+              <button className="btn btn-primary font-semibold m-3 text-center p-4" onClick={() => {closingMatch(match.id, "HOME_WIN")}}>{match.teamA} 승리</button>
+              <button className="btn btn-error font-semibold m-3 text-center p-4" onClick={() => {closingMatch(match.id, "AWAY_WIN")}}>{match.teamB} 승리</button>
             </div>
           ) : (
             predictable === true ?
@@ -63,6 +94,11 @@ export default function AdminMatchCard({ match, interactive = true }: { match: M
           )
         ) : <div></div>}
       </div>
+        {interactive === true ? (
+          <button className="btn btn-error justify-center items-center" onClick={() => {removeMatch(match.id)}}>
+            경기 삭제하기
+          </button>
+        ) : <div></div>}
     </div>
   );
 }

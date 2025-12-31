@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 export function AdminMenu() {
     const navigate = useNavigate();
     return(<div
-          className="absolute left-0 z-50 flex-col hidden border shadow-xl group-hover:flex w-88 bg-base-100 text-base-content rounded-xl border-base-300"
+          className="absolute left-0 z-50 flex-col hidden border shadow-xl group-hover:flex w-72 bg-base-100 text-base-content rounded-xl border-base-300"
         >
           <div className="flex flex-row">
           <button className="flex-1 px-4 py-3 text-left hover:bg-base-200" onClick={() => navigate("/players")}>선수 목록</button>

@@ -2,6 +2,7 @@ import { api } from "../../api/axiosInstance";
 import type { CommentDto } from "../../types/Comment";
 import getName from "../../utils/getName";
 import { useState } from "react";
+import { textLimiter } from "../../utils/textLimiter";
 
 export default function CommentElement({comment, interactive = true, parentContent = null, onReplyAct = null, depth = 0} : {comment : CommentDto, interactive: boolean, parentContent?: string | null, onReplyAct?: (() => void) | null, depth?: number}) {
   const [hidden, setHidden] = useState(false);
@@ -89,10 +90,10 @@ export default function CommentElement({comment, interactive = true, parentConte
     <div
       className="flex justify-between card bg-base-100 shadow-lg p-4 border border-base-300 mt-4"
       style={{
-        marginLeft: `${Math.min(depth * 16, 80)}px`,
+        marginLeft: `${Math.min(depth * 10, 80)}px`,
       }}
     >
-      <div className="flex flex-row" >
+      <div className="flex flex-col md:flex-row" >
         <div className="flex flex-col flex-1">
           {onEdit ? 
             <div className="flex flex-col justify-center">
@@ -115,8 +116,9 @@ export default function CommentElement({comment, interactive = true, parentConte
             </div> 
             : 
             <div className="flex flex-col">
-              {comment.parentId != null ? <div>{parentContent}</div> : null}
-              <h1 className="text-xl">{comment.parentId != null ? "↳ re: " : ""} {getName(content.author, "사용자")} | {content.content}</h1>
+              {comment.parentId != null ? <div className="text-xs md:text-lg">{parentContent != null ? getName(parentContent) : ""}</div> : null}
+              <h1 className="md:hidden">{comment.parentId != null ? "↳ " : ""} {textLimiter(getName(content.author, "사용자"), 5)} | {content.content}</h1>
+              <h1 className="text-xl hidden md:block">{comment.parentId != null ? "↳ re: " : ""} {getName(content.author, "사용자")} | {content.content}</h1>
               <p className="text-base-content/60 text-sm mt-1">{new Date(content.createdAt).toLocaleString()}</p>
             </div>}
             {onReply ? 
@@ -142,7 +144,7 @@ export default function CommentElement({comment, interactive = true, parentConte
         </div>
         {!onEdit && !onReply && interactive === true ? 
         <div className="flex flex-col justify-center">
-          <span className="flex justify-center">
+          <span className="justify-end md:justify-center flex">
             <button className="btn btn-sm btn-success p-2 px-3" onClick={() => {tryReply()}}>↵</button>
             <button className="btn btn-sm btn-primary p-2" onClick={() => {tryEdit()}}>수정</button>
             <button className="btn btn-sm btn-error p-2" onClick={() => {remove()}}>삭제</button>

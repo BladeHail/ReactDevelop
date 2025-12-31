@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { api } from "../../api/axiosInstance";
 import CommentElement from "./CommentElement";
 import type { CommentDto } from "../../types/Comment";
+import getName from "../../utils/getName";
 
 export default function CommentList({
   postId,
@@ -111,10 +112,6 @@ export default function CommentList({
 
     return ordered;
   };
-
-
-
-
    // 첫 로딩: 아직 page=0이지만 서버 totalPages를 모름
   useEffect(() => {
     loadComments(0).then(tp => {
@@ -155,7 +152,7 @@ export default function CommentList({
         comment={cmt} 
         depth={cmt.depth}
         interactive={true} 
-        parentContent={`${comments.find(c => c.id === cmt.parentId)?.author || ""} ${comments.find(c => c.id === cmt.parentId)? " | " : ""} ${comments.find(c => c.id === cmt.parentId)?.content || "(삭제된 댓글)"}`} 
+        parentContent={`${getName(comments.find(c => c.id === cmt.parentId)?.author) || ""} ${comments.find(c => c.id === cmt.parentId)? " | " : ""} ${comments.find(c => c.id === cmt.parentId)?.content || "(삭제된 댓글)"}`} 
         onReplyAct={onReply} />
         :
         <CommentElement 

@@ -1,4 +1,5 @@
 import { type VideoResponseDto } from "../../types/VideoResponseDto";
+import { textLimiter } from "../../utils/textLimiter";
 
 interface VideoPlayerModalProps {
   video: VideoResponseDto | null;
@@ -15,7 +16,7 @@ export default function VideoPlayerModal({
     <div className="modal modal-open">
       <div className="relative w-11/12 max-w-5xl">
         <button
-          className="absolute z-50 text-white border-none btn btn-sm btn-circle -right-8 -top-10 bg-black/40 hover:bg-black"
+          className="absolute z-50 text-white border-none btn btn-sm btn-circle -right-0 md:-right-8 -top-10 bg-black/40 hover:bg-black"
           onClick={onClose}
         >
           X
@@ -30,7 +31,6 @@ export default function VideoPlayerModal({
                 "https://www.youtube.com/embed/" + video.videoId + "?autoplay=1"
               }
               title="YouTube video player"
-              frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             ></iframe>
@@ -39,6 +39,7 @@ export default function VideoPlayerModal({
           {/* 하단 정보 영역 */}
           <div className="p-6 text-left">
             <h2 className="text-2xl font-bold">{video.title}</h2>
+            <h2 className="text-2xl font-bold">{textLimiter(video.title, 25)}</h2>
             <div className="flex items-center gap-2 mt-4">
               {video.keyword && (
                 <span className="badge badge-outline opacity-70">

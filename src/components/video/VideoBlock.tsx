@@ -8,7 +8,7 @@ interface VideoBlockProps {
 export default function VideoBlock({ video, onClick }: VideoBlockProps) {
   return (
     <div 
-      className="flex flex-col p-3 transition-shadow rounded-lg shadow-sm cursor-pointer bg-base-100 hover:shadow-md group"
+      className="flex flex-col w-full p-3 transition-shadow rounded-lg shadow-sm cursor-pointer bg-base-100 hover:shadow-md group"
       onClick={onClick}
     >
       {/* 썸네일 */}

@@ -9,12 +9,15 @@ import MyBoard from "../../components/my/MyBoard";
 import MyPost from "../../components/my/MyPost";
 import Galaxy from "../../../public/galaxy.jpg";
 import type { PostSummary } from "../../types/Post";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function MyPage() {
+    const {logout} = useAuth();
     const [user, setUser] = useState<UserDto | null>(null);
     const [myPre, setMyPre] = useState<PredictDto[] | null>(null);
     const [myBrd, setMyBrd] = useState<BoardDto[] | null>(null);
     const [myPost, setMyPost] = useState<PostSummary[] | null>(null);
+    const [openRmb, setOpenRmb] = useState(false);
     const [openPre, setOpenPre] = useState(true);
     const [openBrd, setOpenBrd] = useState(true);
     const [openPost, setOpenPost] = useState(true);
@@ -39,6 +42,19 @@ export default function MyPage() {
                 break;
         }
     }
+  const bye = () => {
+    if(!confirm("정말 탈퇴하시겠습니까? 재가입 시에는 기존의 정보가 모두 사라집니다.")) return;
+    api.get("/user/checkToken").then(() => {
+      api.delete("/user/my/deleteAccount").then(() => {
+        alert("탈퇴가 완료되었습니다. 이용해 주셔서 감사합니다.");
+        logout();
+      }).catch((err: any) => {
+        console.error(err);
+      })
+    }).catch((err:any) => {
+      console.error(err);
+    });
+  }
   useEffect(() => {
     api.get("user/my")
     .then((res) => {
@@ -82,9 +98,10 @@ export default function MyPage() {
                 </div>
               </div>
               <div className="pb-8">
-                <h1 className={user.admin === true ? "text-3xl md:text-6xl font-bold text-blue-600 m-4" : "text-3xl md:text-6xl font-bold m-4"}>{getName(user.email, user.username)}</h1>
+                <button className={user.admin === true ? "text-3xl md:text-6xl font-bold text-blue-600 m-4" : "text-3xl md:text-6xl font-bold m-4"} onClick={() => {setOpenRmb(!openRmb)}}>{getName(user.email, user.username)}</button>
                 <p className="text-xl">{handleProvider(user.provider)}</p>
                 <p className="text-xs">{user.email !== null ? user.email : "이메일 없음"}</p>
+                {openRmb ? <div><button className="btn btn-error m-2 p-2" onClick={bye}>회원 탈퇴</button></div> : null}
               </div>
             </div>
           </header>
@@ -94,7 +111,7 @@ export default function MyPage() {
                 <div className="flex-1">내 승부예측</div>
                 <div className="btn btn-lg text-2xl mb-2" onClick={() => setOpenPre(!openPre)}>{openPre === true ? "접기" : "펼치기"}</div>
               </div>
-              {(myPre !== null && openPre) ? myPre.map(predict => <MyPrediction key={predict.id} predict={predict}/>) : <div className="text-center">...</div>}
+              {(myPre?.length !== 0 && openPre) ? myPre.map(predict => <MyPrediction key={predict.id} predict={predict}/>) : <div className="text-center">...</div>}
             </div>
           </section>
           <section id="my-posts">

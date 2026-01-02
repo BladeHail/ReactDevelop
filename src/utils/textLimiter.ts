@@ -1,4 +1,5 @@
-export function textLimiter(text: string, maxLength: number): string {
+export function textLimiter(text: string | null, maxLength: number): string {
+  if(text === null) return "";
   if (text.length <= maxLength) {
     return text;
   }

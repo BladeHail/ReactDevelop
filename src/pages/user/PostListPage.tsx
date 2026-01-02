@@ -46,7 +46,7 @@ export default function PostListPage() {
             >
               <div className="text-lg font-semibold">{post.title}</div>
               <div className="text-sm text-gray-500 flex justify-between">
-                <span>{getName(post.authorName)}</span>
+                <span>{getName(post.authorName, "사용자")}</span>
                 <span>{new Date(post.createdAt).toLocaleString()}</span>
               </div>
             </li>

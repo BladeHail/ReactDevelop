@@ -35,8 +35,8 @@ export default function ProfileSections({player}: {player : Player}) {
                 key={idx} 
                 className={`
                   mb-1 
-                  ${(isEmpty || isDivider) ? "list-none" : ""} 
-                  ${isDivider ? "text-2xl font-bold text-base-content mt-6 mb-2" : ""}
+                  ${(isEmpty || isDivider) ? "list-none text-sm md:text-2xl" : "text-xs md:text-lg"} 
+                  ${isDivider ? "font-bold text-base-content mt-6 mb-2" : ""}
                 `}
               >
                 {award || <br />}
